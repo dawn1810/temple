@@ -18,6 +18,7 @@ import VaultPage from 'components/Pages/Core/Vault';
 import ProfilePage from 'components/Pages/Core/Profile/Profile';
 import VaultListPage from 'components/Pages/Core/VaultList';
 import HomePage from 'components/Pages/Core/HomePage';
+import Announcement from 'components/Pages/Core/Announcement';
 import PoolListPage from 'components/Pages/Ascend/PoolList';
 import { Claim as VaultClaim } from 'components/Pages/Core/VaultPages/Claim';
 import { Stake } from 'components/Pages/Core/VaultPages/Stake';
@@ -87,6 +88,7 @@ ReactDOM.render(
           <>
             <Route path="/" element={<PageLayout />}>
               <Route path="" element={<HomePage />} />
+              <Route path="announcement" element={<Announcement />} />
               {/* Redirect everything else to the home page */}
               <Route path="*" element={<Navigate replace to="/" />} />
               <Route path="disclaimer" element={<Disclaimer />} />
