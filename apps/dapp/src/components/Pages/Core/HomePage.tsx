@@ -17,6 +17,7 @@ import sunsetImage from 'assets/images/sunset.svg';
 import { ResponsiveImage } from 'styles/common';
 import useRefreshableTreasuryMetrics from 'hooks/use-refreshable-treasury-metrics';
 import animationData from 'assets/animations/logo-animation.json';
+import { NAV_MOBILE_HEIGHT_PIXELS } from 'components/Layouts/CoreLayout/Header';
 
 const REWARDS_IMAGE_HEIGHT = 322;
 const EARN_IMAGE_HEIGHT = 450;
@@ -41,6 +42,14 @@ const HomePage = () => {
           </MenuContainer>
         </NavContainer>
       </HeaderStyled>
+
+      <PSA>
+        <strong>IMPORTANT: </strong> Some PSA announcement that is important and everyone should ready
+        <br />
+        <br />
+        <a href="https://www.google.com">Link to more info</a>
+      </PSA>
+
       <Row>
         <RowCell>
           <EarnBetterYieldsWrapper>
@@ -375,6 +384,21 @@ const MenuContainer = styled.div`
 
 const DAppButton = styled(Button)`
   width: 10rem;
+`;
+
+export const PSA = styled.div`
+  display: block;
+
+  margin: ${NAV_MOBILE_HEIGHT_PIXELS}px 0 2.5rem 0;
+  ${breakpoints.phoneAndAbove(`
+    padding: 2.5rem;
+  `)}
+
+  width: 100%;
+
+  border: 8px solid;
+  color: ${(props) => props.theme.palette.brandDark};
+  font-size: 1.5rem;
 `;
 
 export default HomePage;
