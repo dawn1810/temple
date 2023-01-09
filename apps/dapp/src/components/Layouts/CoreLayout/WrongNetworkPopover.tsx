@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNetwork, AddChainError, useSwitchNetwork, Chain } from 'wagmi';
-import { mainnet, goerli } from 'wagmi/chains';
+import { mainnet, goerli, arbitrum, arbitrumGoerli } from 'wagmi/chains';
 
 import { UnstyledList } from 'styles/common';
 import { Button } from 'components/Button/Button';
@@ -9,6 +9,7 @@ import { Button } from 'components/Button/Button';
 import { Popover } from 'components/Popover';
 import { Nullable } from 'types/util';
 import { LOCAL_CHAIN } from 'components/WagmiProvider';
+import env from '../../../constants/env';
 
 const ENV_VARS = import.meta.env;
 const ENV = ENV_VARS.VITE_ENV;
@@ -89,7 +90,7 @@ export const WrongNetworkPopover = () => {
       </Message>
       <Menu>
         <li>{switchNetworkButton}</li>
-        {!IS_PROD && (
+        {!IS_PROD && !env.featureFlags.nexusOnlyMode && (
           <li>
             <SwitchNetworkButton role="button" isSmall disabled={loading} onClick={onDismiss}>
               {!!chain?.name ? <>Continue with {chain.name}</> : <>Continue</>}
@@ -102,11 +103,16 @@ export const WrongNetworkPopover = () => {
   );
 };
 
-// TODO: Wat
 const ENV_CHAIN_MAPPING = new Map<string, Chain>();
-ENV_CHAIN_MAPPING.set('production', mainnet);
-ENV_CHAIN_MAPPING.set('preview', goerli);
-ENV_CHAIN_MAPPING.set('local', LOCAL_CHAIN);
+if (env.featureFlags.nexusOnlyMode) {
+  ENV_CHAIN_MAPPING.set('production', arbitrum);
+  ENV_CHAIN_MAPPING.set('preview', arbitrumGoerli);
+  ENV_CHAIN_MAPPING.set('local', LOCAL_CHAIN);  
+} else {
+  ENV_CHAIN_MAPPING.set('production', mainnet);
+  ENV_CHAIN_MAPPING.set('preview', goerli);
+  ENV_CHAIN_MAPPING.set('local', LOCAL_CHAIN);
+}
 
 const isSupportedChain = (chainId: number) => {
   return Array.from(ENV_CHAIN_MAPPING).some(([_, chain]) => chain.id === chainId);
