@@ -1,4 +1,5 @@
 import { Button } from 'components/Button/Button';
+import Image from 'components/Image/Image';
 import { BigNumber } from 'ethers';
 import { useRelic } from 'providers/RelicProvider';
 import { ItemInventory, RelicData, RelicEnclave, RelicItemData, RelicRarity } from 'providers/types';
@@ -8,6 +9,8 @@ import styled from 'styled-components';
 import BufferedItemGrid from './BufferedItemGrid';
 import RelicStatsPanel, { getEnclavePalette, getRarityPalette } from './RelicStatsPanel';
 import { NexusPanel, NexusPanelRow } from './styles';
+
+import tmpBagImage from 'assets/icons/mstile-70x70.png'
 
 export const RelicPage: FC<{ inventory: ItemInventory }> = (props) => {
   const { relics, items } = props.inventory
@@ -83,6 +86,7 @@ const MyItemPanel: FC<{
 
   return (
     <NexusPanel>
+      <BagIcon src={tmpBagImage}/>
       <NexusPanelRow>
         <span>My Items</span>
       </NexusPanelRow>
@@ -97,3 +101,11 @@ const MyItemPanel: FC<{
     </NexusPanel>
   );
 };
+
+const BagIcon = styled(Image)`
+  position: absolute;
+  display: inline;
+  left: 0;
+  top: 0;
+  width: 40px;
+`;
