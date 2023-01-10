@@ -52,16 +52,7 @@ const RelicStatsPanel: FC<{ relic: RelicData }> = (props) => {
   const rarityInfo = <RelicStatsItem label="Rarity" element={<RarityLabel rarity={rarity} />} />;
   const poapInfo = <RelicStatsItem label="Shards" element={<span>{items.reduce((n, i) => n + i.count, 0)}</span>} />;
   const xpInfo = <RelicStatsItem label="XP" element={<span>{xp.toNumber()}</span>} />;
-  const renounceBtn = (
-    <Button
-      isSmall
-      label="Renounce Relic"
-      onClick={async () => {
-        await renounceRelic(id);
-        navigate(`..`);
-      }}
-    />
-  );
+
   if (componentWidth > 700) {
     return (
       <RelicStatsContainer ref={containerRef}>
@@ -73,8 +64,6 @@ const RelicStatsPanel: FC<{ relic: RelicData }> = (props) => {
         <RelicStatsColumn>
           {rarityInfo}
           {xpInfo}
-          <br />
-          {renounceBtn}
         </RelicStatsColumn>
       </RelicStatsContainer>
     );
@@ -87,8 +76,6 @@ const RelicStatsPanel: FC<{ relic: RelicData }> = (props) => {
           {rarityInfo}
           {poapInfo}
           {xpInfo}
-          <br />
-          {renounceBtn}
         </RelicStatsColumn>
       </RelicStatsContainer>
     );
