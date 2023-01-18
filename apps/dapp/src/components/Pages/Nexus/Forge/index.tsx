@@ -159,11 +159,11 @@ const ForgePage = () => {
 
   return (
     <ForgeWrapper>
-      <ForgeBackground
+      {/* <ForgeBackground
         style={{
           backgroundImage: `url(${forgeBackground})`,
         }}
-      />
+      /> */}
       <ForgePanel>
         {inventoryLoading && <NexusLoading />}
         {!inventoryLoading && (
@@ -223,10 +223,21 @@ const EmptyCell = styled.div`
 `;
 
 const ForgeWrapper = styled.div`
-  margin: 40px 40px 40px 40px;
+  margin-top: 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 100%;
+  background-image: url('${forgeBackground}');
+  // background-size: cover;
+  background-repeat: repeat-y;
+  background-position-x: center;
+  background-position-y: top;
+  /* full width */
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: 0px;
 `;
 
 const InventoryContainer = styled.div`
@@ -243,9 +254,10 @@ const ForgeBackground = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  background-size: cover;
-  background-position: center;
-`;
+  // background-size: cover;
+  // background-position: center;
+  // background-attachment: local;
+  `;
 
 const ForgeRamp = styled(Image)`
   width: 100%;
@@ -266,9 +278,6 @@ const ForgePanel = styled.div<{ color?: string }>`
   display: flex;
   flex-direction: column;
   width: 800px;
-  border: 0.0625rem solid ${(props) => props.color ?? props.theme.palette.brand};
-  border-radius: 16px;
-  padding: 1rem;
 `;
 
 const NexusTitle = styled.h2`
