@@ -98,7 +98,7 @@ const BufferPanel: FC<{
   return (
     <NexusPanel
       style={{
-        width: '80%',
+        width: '100%',
         borderWidth: 1,
       }}
     >

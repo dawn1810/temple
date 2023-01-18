@@ -8,29 +8,24 @@ import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import BufferedItemGrid from './BufferedItemGrid';
 import RelicStatsPanel, { getEnclavePalette, getRarityPalette } from './RelicStatsPanel';
-import { NexusPanel, NexusPanelRow } from './styles';
+import { NexusPanelRow } from './styles';
 
-import tmpBagImage from 'assets/icons/mstile-70x70.png'
+import bagImage from 'assets/icons/bagicon.png';
 
 export const RelicPage: FC<{ inventory: ItemInventory }> = (props) => {
-  const { relics, items } = props.inventory
+  const { relics, items } = props.inventory;
   const { id } = useParams();
   const relicIdx = relics.findIndex((r) => r.id.toString() == id);
-  const thisRelic = relics[relicIdx]
-  return <>
-    <RelicPanel thisRelic={thisRelic}
-      prevRelic={relics[relicIdx - 1]}
-      nextRelic={relics[relicIdx + 1]}
-    />
-    <MyItemPanel relicId={thisRelic?.id} items={items} />
-  </>
+  const thisRelic = relics[relicIdx];
+  return (
+    <>
+      <RelicPanel thisRelic={thisRelic} prevRelic={relics[relicIdx - 1]} nextRelic={relics[relicIdx + 1]} />
+      <MyItemPanel relicId={thisRelic?.id} items={items} />
+    </>
+  );
 };
 
-const RelicPanel = (props: {
-  thisRelic?: RelicData,
-  prevRelic?: RelicData,
-  nextRelic?: RelicData,
-}) => {
+const RelicPanel = (props: { thisRelic?: RelicData; prevRelic?: RelicData; nextRelic?: RelicData }) => {
   const { unequipShards } = useRelic();
   const navigate = useNavigate();
   const { thisRelic, prevRelic, nextRelic } = props;
@@ -42,40 +37,29 @@ const RelicPanel = (props: {
       <EnclavePanel enclave={thisRelic.enclave}>
         <RelicStatsPanel relic={thisRelic} />
         <br />
-        <BufferedItemGrid items={thisRelic.items}
+        <BufferedItemGrid
+          items={thisRelic.items}
           actionLabel="Unequip"
-          onAction={async selectedItems => unequipShards(thisRelic.id, selectedItems)}
+          onAction={async (selectedItems) => unequipShards(thisRelic.id, selectedItems)}
         />
-        { (prevRelic || nextRelic) &&
+        {(prevRelic || nextRelic) && (
           <NexusPanelRow>
             <div>
-              { prevRelic && <Button isSmall label="Previous Relic"
-                  onClick={() => navigate(`../${prevRelic.id.toString()}`)}
-                />
-              }
+              {prevRelic && (
+                <Button isSmall label="Previous Relic" onClick={() => navigate(`../${prevRelic.id.toString()}`)} />
+              )}
             </div>
             <div>
-              { nextRelic && <Button isSmall label="Next Relic"
-                  onClick={() => navigate(`../${nextRelic.id.toString()}`)}
-                />
-              }
+              {nextRelic && (
+                <Button isSmall label="Next Relic" onClick={() => navigate(`../${nextRelic.id.toString()}`)} />
+              )}
             </div>
           </NexusPanelRow>
-        }
+        )}
       </EnclavePanel>
     </OuterPanel>
   );
 };
-
-const EnclavePanel = styled(NexusPanel)<{ enclave: RelicEnclave }>`
-  border: 0.0625rem solid ${(props) => props.theme.palette.enclave[getEnclavePalette(props.enclave)]};
-`
-
-const OuterPanel = styled.div<{ rarity: RelicRarity }>`
-  border: 0.0625rem solid ${(props) => props.theme.palette.brand};
-  border-radius: 20px;
-  padding: 6px;
-`
 
 const MyItemPanel: FC<{
   relicId?: BigNumber;
@@ -85,27 +69,68 @@ const MyItemPanel: FC<{
   const { equipShards } = useRelic();
 
   return (
-    <NexusPanel>
-      <BagIcon src={tmpBagImage}/>
-      <NexusPanelRow>
-        <span>My Items</span>
-      </NexusPanelRow>
-      <BufferedItemGrid disabled={!relicId} items={items}
+    <RelicItemsPanel>
+      <PanelHeading>
+        <BagIcon src={bagImage} />
+        <PanelText>My Items</PanelText>
+      </PanelHeading>
+      <BufferedItemGrid
+        disabled={!relicId}
+        items={items}
         actionLabel="Equip"
-        onAction={async selectedItems => {
+        onAction={async (selectedItems) => {
           if (relicId) {
-            await equipShards(relicId, selectedItems)
+            await equipShards(relicId, selectedItems);
           }
         }}
       />
-    </NexusPanel>
+    </RelicItemsPanel>
   );
 };
 
+const RelicItemsPanel = styled.div<{ color?: string }>`
+  display: flex;
+  flex-direction: column;
+  border: 0.0625rem solid ${(props) => props.color ?? props.theme.palette.brand};
+  border-radius: 16px;
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(15px);
+
+  > * {
+    margin-bottom: 1rem;
+  }
+`;
+
+const PanelHeading = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
 const BagIcon = styled(Image)`
-  position: absolute;
-  display: inline;
   left: 0;
   top: 0;
   width: 40px;
+`;
+
+const PanelText = styled.div`
+  font-family: Megant, serif;
+  color: #bd7b4f;
+  width: 100%;
+  margin: 2px;
+  padding: 0 5px;
+  text-align: left;
+  font-size: 22px;
+  display: flex;
+  align-content: flex-start;
+`;
+
+const EnclavePanel = styled(RelicItemsPanel)<{ enclave: RelicEnclave }>`
+  border: 0.0625rem solid ${(props) => props.theme.palette.enclave[getEnclavePalette(props.enclave)]};
+`;
+
+const OuterPanel = styled.div<{ rarity: RelicRarity }>`
+  border: 0.0625rem solid ${(props) => props.theme.palette.brand};
+  border-radius: 20px;
+  padding: 6px;
 `;
