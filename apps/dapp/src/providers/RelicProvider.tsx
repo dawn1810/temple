@@ -43,7 +43,7 @@ export const RelicProvider = (props: PropsWithChildren<{}>) => {
 
     const relicContract = new Relic__factory(signer).attach(env.nexus.templeRelicAddress);
     // TODO: Update with shards
-    const relicItemsContract = new Shards__factory(signer).attach(env.nexus.templeRelicItemsAddress);
+    const relicItemsContract = new Shards__factory(signer).attach(env.nexus.templeShardsAddress);
 
     const itemIds = [...Array(200).keys()];
 
@@ -110,7 +110,7 @@ export const RelicProvider = (props: PropsWithChildren<{}>) => {
   const transmute = async (recipeId: number) => {
     if (signer) {
       // TODO: Add error handling
-      const relicItemsContract = new Shards__factory(signer).attach(env.nexus.templeRelicItemsAddress);
+      const relicItemsContract = new Shards__factory(signer).attach(env.nexus.templeShardsAddress);
 
       let receipt: ContractReceipt;
       try {
@@ -134,7 +134,7 @@ export const RelicProvider = (props: PropsWithChildren<{}>) => {
   const callShardsContractFunction = async (fn: (shardsContract: Shards) => Promise<ContractTransaction>) => {
     // TODO: Error handling?
     if (inventoryState && signer) {
-      const shardsContract = new Shards__factory(signer).attach(env.nexus.templeRelicItemsAddress);
+      const shardsContract = new Shards__factory(signer).attach(env.nexus.templeShardsAddress);
       const receipt = await (await fn(shardsContract)).wait();
       const inventory = (await updateInventory())!;
       return { inventory, receipt };
@@ -202,11 +202,11 @@ export const RelicProvider = (props: PropsWithChildren<{}>) => {
     }
 
     if (wallet && signer) {
-      const shardsContract = new Shards__factory(signer).attach(env.nexus.templeRelicItemsAddress);
-      const isApproved = await shardsContract.isApprovedForAll(wallet, env.nexus.templeRelicItemsAddress);
+      const shardsContract = new Shards__factory(signer).attach(env.nexus.templeShardsAddress);
+      const isApproved = await shardsContract.isApprovedForAll(wallet, env.nexus.templeShardsAddress);
 
       if (!isApproved) {
-        const txn = await shardsContract.setApprovalForAll(env.nexus.templeRelicItemsAddress, true);
+        const txn = await shardsContract.setApprovalForAll(env.nexus.templeShardsAddress, true);
         const txnResult = await txn.wait();
 
         if (txnResult.status === TXN_SUCCESS_CODE) {

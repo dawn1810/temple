@@ -123,12 +123,12 @@ const env: Environment = {
   },
   templeMultisig: '0xe2Bb722DA825eBfFa1E368De244bdF08ed68B5c4',
   nexus: {
-    templeRelicAddress: '0x9CaFd1421aAa1015b64F755Ff49499455f46cA70',
-    templeRelicItemsAddress: '0x4EA1C78102d2C201cFc98fd53b634Cc01294771c',
+    templeRelicAddress: '0xb383114e754ee9C5C492EC8F686d702c05Fd8Fd0',
+    templeShardsAddress: '0xd641b65438206A33a0832D0CD38be8e5Bdc6D935',
+    templeSacrificeAddress: '0x300d96730c70bA3430eE413515B4016427946Ed0',
     recipes: [
       { id: 0, required_ids: [0, 1], required_amounts: [1, 1], reward_ids: [2], reward_amounts: [1] },
       { id: 2, required_ids: [0, 1], required_amounts: [2, 3], reward_ids: [2], reward_amounts: [1] },
-      { id: 3, required_ids: [0, 1, 2], required_amounts: [1, 2, 1], reward_ids: [3], reward_amounts: [1] },
     ],
     shardMetadata: {
       0: {

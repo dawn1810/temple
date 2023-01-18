@@ -1,3 +1,6 @@
+// TODO: In this branch, preview is configured for nexus.
+// BUT SHOULD NOT BE MERGED LIKE THIS
+// Revert to normal state before merging
 import { ADDRESS_ZERO } from 'utils/bigNumber';
 import { RARITY_TYPE } from 'components/Pages/Nexus/types';
 import { Environment } from './types';
@@ -111,12 +114,13 @@ const env: Environment = {
   etherscan: 'https://goerli.etherscan.io',
   featureFlags: {
     enableAscend: false,
-    nexusOnlyMode: false,
+    nexusOnlyMode: true,
   },
   templeMultisig: '0x3a320fF715dCBbF097e15257B7051dd08fdfb7A2',
   nexus: {
     templeRelicAddress: '0xbb8bB20DA64D4C595eb4Ac8A7cC2cBDcFBfB4306',
-    templeRelicItemsAddress: '0xaBf139511C381f7804EdD6E4c78383b775d8CeeF',
+    templeShardsAddress: '0xaBf139511C381f7804EdD6E4c78383b775d8CeeF',
+    templeSacrificeAddress: '',
     recipes: [
       { id: 0, required_ids: [0, 1], required_amounts: [1, 1], reward_ids: [2], reward_amounts: [1] },
       { id: 2, required_ids: [0, 1], required_amounts: [2, 3], reward_ids: [2], reward_amounts: [1] },
