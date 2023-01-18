@@ -1,17 +1,17 @@
-import forgeBackground from 'assets/images/nexus/forge_bg.jpg';
+import forgeBackground from 'assets/images/nexus/forge-bg-new.png';
+import forgeRamp from 'assets/images/nexus/forge_ramp.png';
 import { useRelic } from 'providers/RelicProvider';
 import { RelicItemData } from 'providers/types';
 import { useWallet } from 'providers/WalletProvider';
+import Image from 'components/Image/Image';
 import { useEffect, useReducer, useState } from 'react';
 import styled from 'styled-components';
-import { PageWrapper } from '../../Core/utils';
 import { EMPTY_INVENTORY } from '../Relic';
-import { NexusBackground } from '../Relic/styles';
-import InventoryPanel from './InventoryPanel';
-import UsedShardsPanel from './UsedShardsPanel';
 import { getValidRecipe } from './recipes';
-import ForgeResult from './ForgeResult';
 import { useNavigate } from 'react-router-dom';
+import ItemGrid, { ItemButton } from '../Relic/ItemGrid';
+
+import bagImage from 'assets/icons/bagicon.png';
 
 type TransmuteState = {
   shardsPendingForge: RelicItemData[];
@@ -100,9 +100,9 @@ const transmuteReducer = (state: TransmuteState, action: { type: string; payload
 
 const NexusLoading = () => {
   return (
-    <NexusPanelRow>
+    <NexusTitle>
       <span>Loading...</span>
-    </NexusPanelRow>
+    </NexusTitle>
   );
 };
 
@@ -158,8 +158,8 @@ const ForgePage = () => {
   };
 
   return (
-    <PageWrapper>
-      <NexusBackground
+    <ForgeWrapper>
+      <ForgeBackground
         style={{
           backgroundImage: `url(${forgeBackground})`,
         }}
@@ -168,27 +168,186 @@ const ForgePage = () => {
         {inventoryLoading && <NexusLoading />}
         {!inventoryLoading && (
           <>
-            <NexusPanelRow>Forge</NexusPanelRow>
-            <NexusPanelRow2>Combine Shards to Forge</NexusPanelRow2>
-            <ForgeResult forgeResult={forgeResult} onClickHandler={forgeHandler} />
-            <UsedShardsPanel
-              items={transmuteState.shardsPendingForge || EMPTY_INVENTORY.items}
-              usedShardsClickHandler={usedShardsClickHandler}
-            />
-            <InventoryPanel
-              inventory={transmuteState.inventoryItems || EMPTY_INVENTORY.items}
-              addShardClickHandler={addShardClickHandler}
-            />
+            <NexusTitle>Forge</NexusTitle>
+            <NexusSubtitle>Combine Shards to Forge</NexusSubtitle>
+            <ForgeResultWrapper>
+              {forgeResult === null ? (
+                <EmptyCell />
+              ) : (
+                <ItemButton key={forgeResult.id} item={forgeResult} disabled={false} onClick={forgeHandler} />
+              )}
+            </ForgeResultWrapper>
+            <ForgeRamp src={forgeRamp} />
+            <UsedShardsContainer>
+              <ForgeBodyContainer>
+                <NexusPanel>
+                  <PanelText>Used Shards</PanelText>
+                  <ItemGrid
+                    items={transmuteState.shardsPendingForge || EMPTY_INVENTORY.items}
+                    onClick={async (item) => usedShardsClickHandler(item)}
+                  />
+                </NexusPanel>
+              </ForgeBodyContainer>
+            </UsedShardsContainer>
+            <InventoryContainer>
+              <ForgeBodyContainer>
+                <NexusPanel>
+                  <PanelHeading>
+                    <BagIcon src={bagImage} />
+                    <PanelText>Inventory</PanelText>
+                  </PanelHeading>
+                  <ItemGrid
+                    items={transmuteState.inventoryItems || EMPTY_INVENTORY.items}
+                    onClick={addShardClickHandler}
+                  />
+                </NexusPanel>
+              </ForgeBodyContainer>
+            </InventoryContainer>
           </>
         )}
       </ForgePanel>
-    </PageWrapper>
+    </ForgeWrapper>
   );
 };
 
-export const ForgePanel = styled.div<{ color?: string }>`
+const PanelHeading = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const EmptyCell = styled.div`
+  background: #2e261f;
+  border: solid 1px #2e261f;
+  position: relative;
+  border-radius: 15%;
+`;
+
+const ForgeWrapper = styled.div`
+  margin: 40px 40px 40px 40px;
+  display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+const InventoryContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+`;
+
+const ForgeBackground = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-size: cover;
+  background-position: center;
+`;
+
+const ForgeRamp = styled(Image)`
+  width: 100%;
+  margin-top: -40px;
+  position: relative;
+`;
+
+const UsedShardsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+  margin-top: -50px;
+`;
+
+const ForgePanel = styled.div<{ color?: string }>`
+  display: flex;
+  flex-direction: column;
+  width: 800px;
+  border: 0.0625rem solid ${(props) => props.color ?? props.theme.palette.brand};
+  border-radius: 16px;
+  padding: 1rem;
+`;
+
+const NexusTitle = styled.h2`
+  width: 100%;
+  margin: 0.1rem;
+  padding: 0 5px;
+  text-align: center;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+`;
+
+const NexusSubtitle = styled.h4`
+  width: 100%;
+  margin: 0.5rem;
+  padding: 0 5px;
+  text-align: center;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+`;
+
+const BagIcon = styled(Image)`
+  left: 0;
+  top: 0;
+  width: 40px;
+`;
+
+const PanelText = styled.div`
+  font-family: Megant, serif;
+  color: #bd7b4f;
+  width: 100%;
+  margin: 2px;
+  padding: 0 5px;
+  text-align: left;
+  font-size: 22px;
+  display: flex;
+  align-content: flex-start;
+`;
+
+const ForgeResultWrapper = styled.div`
+  position: relative;
+  margin: auto;
+  width: 120px;
+  height: 120px;
+  border: 0.0625rem solid ${(props) => props.color ?? props.theme.palette.brand};
+  border-radius: 15%;
+  > * {
+    &:first-child {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      right: 0px;
+      bottom: 0px;
+      border-radius: 15%;
+    }
+  }
+  z-index: 2;
+`;
+
+const ForgeBodyContainer = styled.div`
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  > * {
+    margin: 2%;
+    width: 100%;
+    min-width: 25rem;
+    max-width: 800px;
+  }
+`;
+
+const NexusPanel = styled.div<{ color?: string }>`
+  display: flex;
+  flex-direction: column;
   border: 0.0625rem solid ${(props) => props.color ?? props.theme.palette.brand};
   border-radius: 16px;
   padding: 1rem;
@@ -197,36 +356,6 @@ export const ForgePanel = styled.div<{ color?: string }>`
 
   > * {
     margin-bottom: 1rem;
-  }
-`;
-
-const NexusPanelRow = styled.h2`
-  width: 100%;
-  margin: 0.1rem;
-  padding: 0 5px;
-  text-align: center;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  * > {
-    &:first-child {
-      flex: 1;
-    }
-  }
-`;
-
-const NexusPanelRow2 = styled.h4`
-  width: 100%;
-  margin: 0.5rem;
-  padding: 0 5px;
-  text-align: center;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  * > {
-    &:first-child {
-      flex: 1;
-    }
   }
 `;
 

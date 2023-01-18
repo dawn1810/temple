@@ -22,9 +22,9 @@ const UsedShardsPanel = (props: { items: RelicItemData[]; usedShardsClickHandler
   );
 };
 
-export const PanelText = styled.h5`
+const PanelText = styled.h5`
   width: 100%;
-  margin: 0.5rem;
+  margin: 2px;
   padding: 0 5px;
   text-align: left;
   flex-direction: row;

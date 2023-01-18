@@ -174,20 +174,24 @@ const ItemCountBadge = styled.div<{ disabled?: boolean }>`
   background-color: ${(props) => (props.disabled ? props.theme.palette.brand50 : props.theme.palette.brand)};
 `;
 
-const ItemImage = styled.img`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  opacity: 0.7;
-  pointer-events: none;
-`;
+// const ItemImage = styled.img`
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   right: 0;
+//   bottom: 0;
+//   opacity: 0.7;
+//   pointer-events: none;
+// `;
 
 export const EmptyCell = styled.div`
   background: darkgray;
   border: solid 1px darkgray;
   opacity: 0.1;
+  // width: 100%;
+  // height: 100%;
+  position: relative;
+  // border-radius: 15%;
 `;
 
 export default ItemGrid;
