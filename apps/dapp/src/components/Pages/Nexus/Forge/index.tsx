@@ -1,4 +1,5 @@
-import forgeBackground from 'assets/images/nexus/forge-bg-new.png';
+// import forgeBackground from 'assets/images/nexus/forge-bg-new.png';
+import forgeBackground from 'assets/images/nexus/NewForgeBackground-2.png';
 import forgeRamp from 'assets/images/nexus/forge_ramp.png';
 import { useRelic } from 'providers/RelicProvider';
 import { RelicItemData } from 'providers/types';
@@ -239,7 +240,6 @@ const ForgeWrapper = styled.div`
   align-items: center;
   height: 100%;
   background-image: url('${forgeBackground}');
-  background-repeat: repeat-y;
   background-position-x: center;
   background-position-y: top;
   /* full width */
