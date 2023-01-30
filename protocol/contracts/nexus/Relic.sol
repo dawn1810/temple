@@ -1,3 +1,22 @@
+//                           &@@#                                                
+//                         @@@@@@                   @@@@@@@                       
+//                      (@@@@@@@,                &@@@@@@@@@@@                     
+//                    .@@@@@@@@@                 @@@@@@@@@@@@@                    
+//                   @@@@@@@@@@@,                @@@@@@@@@@@@(                    
+//                  @@@@@@@@@@@@@                 &@@@@@@@@@                      
+//                 .@@@@@@@@@@@@@*                                                
+//                 @@@@@@@@@@@@@@@/                                               
+//                 @@@@@@@@@@@@@@@@@                                              
+//                 @@@@@@@@@@@@@@@@@@@                                            
+//                  @@@@@@@@@@@@@@@@@@@@                                          
+//                  @@@@@@@@@@@@@@@@@@@@@@@*                                      
+//                   &@@@@@@@@@@@@@@@@@@@@@@@@@@@,           .&#                  
+//                     @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                    
+//                      ,@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                      
+//                         @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                        
+//                            #@@@@@@@@@@@@@@@@@@@@@@@*                           
+//                                  (@@@@@@@@@@@(      
+
 pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
@@ -17,54 +36,51 @@ interface IShards {
     function mintFromRelic(uint256 _itemId, uint256 _amount) external; 
 }
 
+// TODO: REDO URI SYS
+
 contract Relic is ERC721, ERC721Enumerable, ERC721URIStorage, Pausable, Ownable, ERC721Burnable,IERC1155Receiver, ReentrancyGuard  {
     constructor() ERC721("Relic", "RELIC") {}
     using Strings for uint256;
     using Counters for Counters.Counter;
-    Counters.Counter private _tokenIdCounter;
+    Counters.Counter public _tokenIdCounter;
 
-    enum Enclave{ Logic, Structure, Order, Mystery, Chaos}
+    enum Enclave{ Chaos, Mystery, Logic, Order, Structure}
     mapping (uint256 => Enclave) enclaves;
     enum Rarity{ Common, Uncommon, Rare, Epic, Legendary}
-    mapping (address => bool) private whitelisted;
+    mapping (address => bool) public whitelisted;
     mapping (address => bool) private whitelistedContracts;
-    mapping (uint256 => mapping(uint256 => uint256)) private balances;
-    mapping(uint256 => uint256) private relicXP;
+    mapping (uint256 => mapping(uint256 => uint256)) public balances;
+    mapping(uint256 => uint256) public relicXP;
 
-    mapping (Enclave => mapping (Rarity => string)) private BASE_URIS;
-    IShards private SHARDS;
+    mapping (Rarity => string) private BASE_URIS;
+    IShards public SHARDS;
     address private experienceProvider;
     address private whitelisterAddress;
     uint256[] private thresholds;
 
+    event MintRelic(address to, uint256 enclave);
+    event GivePoints(uint256 relicId, uint256 points);
 
     //------- External -------//
 
-    // TODO: CHECK WHITELISTING SYSTEM FOR RELICS !!!
     function mintRelic (Enclave _selectedEnclave) external nonReentrant {
-        // DEACTIVATED FOR TESTING
         require(whitelisted[msg.sender], "You cannot own a Relic yet");
          uint256 tokenId = _tokenIdCounter.current();
         enclaves[tokenId] = _selectedEnclave;
         _tokenIdCounter.increment();
         _safeMint(msg.sender, tokenId);
 
-        //remove whitelist
         whitelisted[msg.sender]=false;
-    }
 
-    function renounceRelic(uint256 _relicId) external nonReentrant  {
-        require(ownerOf(_relicId)==msg.sender);
-        super._burn(_relicId);
+        emit MintRelic(msg.sender, uint256(_selectedEnclave));
     }
 
     // @dev Templar equips his Shard into his Relic
     function batchEquipShard(uint256 _targetRelic, uint256[] memory _itemIds, uint256[] memory _amounts) external nonReentrant {
         require(msg.sender == ownerOf(_targetRelic), "You don't own this Relic");
 
-        // transfer them to the Relic
         SHARDS.equipShard(msg.sender,_itemIds, _amounts);
-        // update balances
+
         for(uint i=0; i<_itemIds.length;i++){
             balances[_targetRelic][_itemIds[i]]+= _amounts[i];
         }
@@ -74,15 +90,14 @@ contract Relic is ERC721, ERC721Enumerable, ERC721URIStorage, Pausable, Ownable,
     function batchUnequipShard(uint256 _targetRelic, uint256[] memory _itemIds, uint256[] memory _amounts) external nonReentrant {
         require(msg.sender == ownerOf(_targetRelic), "You don't own this Relic");
 
-        // transfer to sender
         SHARDS.unEquipShard(msg.sender, _itemIds, _amounts);
-        // update balances
+
         for(uint i=0; i<_itemIds.length;i++){
             balances[_targetRelic][_itemIds[i]]-= _amounts[i];
         }
     }
 
-    // alows whitelisted contract to mint to an address
+    // allows whitelisted contract to mint to an address
     function mintFromContract(address _to, Enclave _selectedEnclave) external {
         require(whitelistedContracts[msg.sender], "This contract is not authorised to mint");
          uint256 tokenId = _tokenIdCounter.current();
@@ -101,6 +116,7 @@ contract Relic is ERC721, ERC721Enumerable, ERC721URIStorage, Pausable, Ownable,
     function givePoints(uint256 _amount, uint256 _relicId)external {
         require(msg.sender == whitelisterAddress, "Not authorised");
         relicXP[_relicId]+=_amount;
+        emit GivePoints(_relicId, _amount);
     }
 
     //------- Public -------//
@@ -139,12 +155,9 @@ contract Relic is ERC721, ERC721Enumerable, ERC721URIStorage, Pausable, Ownable,
         returns (string memory)
     {
         require(_exists(_relicId));
-
-
-
         return
             string(
-                abi.encodePacked(BASE_URIS[enclaves[_relicId]][_getRarity(_relicId)], _relicId.toString())
+                abi.encodePacked(BASE_URIS[_getRarity(_relicId)], uint256(enclaves[_relicId]).toString())
             );
     }
 
@@ -232,14 +245,8 @@ contract Relic is ERC721, ERC721Enumerable, ERC721URIStorage, Pausable, Ownable,
         whitelisterAddress = _whiteliser;
     }
 
-    function setBaseURI(string[] memory _newBaseURIs) public onlyOwner {
-        uint256 counter =0;
-        for(uint e=0;e<5;e++){
-            for(uint r=0;r<5;r++){
-                BASE_URIS[Enclave(e)][Rarity(r)]=_newBaseURIs[counter];
-                counter++;
-            }
-        }
+    function setBaseURI(uint256 _id, string memory _newBaseURIs) public onlyOwner {
+       BASE_URIS[Rarity(_id)]= _newBaseURIs;
     }
 
 }

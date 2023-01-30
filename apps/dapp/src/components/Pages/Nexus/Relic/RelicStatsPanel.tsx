@@ -21,7 +21,7 @@ const RelicStatsPanel: FC<{ relic: RelicData }> = (props) => {
   useEffect(() => {
     setComponentWidth(containerRef.current?.offsetWidth ?? 100);
   }, [windowWidth]);
-  const { renounceRelic } = useRelic();
+  // const { renounceRelic } = useRelic();
   const navigate = useNavigate();
 
   // TODO: we could clean this up and move it to another place
@@ -110,9 +110,9 @@ const RelicStatsColumn = styled.div`
 
 const RelicImage = styled.img`
   width: 270px;
-	margin-left: -50vw;
-	margin-right: -50vw;
-	max-width: 100vw;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  max-width: 100vw;
 `;
 
 const RelicName = styled.h3<{ enclave: RelicEnclave }>`

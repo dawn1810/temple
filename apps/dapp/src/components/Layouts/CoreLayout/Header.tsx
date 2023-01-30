@@ -67,7 +67,8 @@ function getMenuItems(mode: HeaderMode) {
         { title: 'Analytics', path: '/dapp/analytics' },
       ];
     case 'nexus':
-      const devMode = isDevelopmentEnv();
+      // const devMode = isDevelopmentEnv();
+      const devMode = false;
       return (devMode ? [{ title: 'Dev Mint', path: '/nexus/relic/dev-mint' }] : []).concat([
         { title: 'Relic', path: '/nexus/relic' },
         { title: 'Quests', path: '/nexus/quests' },

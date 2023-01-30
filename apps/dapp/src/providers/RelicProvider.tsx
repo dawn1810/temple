@@ -3,24 +3,43 @@ import { RelicEnclave, ItemInventory, RelicItemData, RelicService, RelicRarity, 
 
 import { BigNumber, ContractReceipt, ContractTransaction, Signer } from 'ethers';
 import env from '../constants/env';
-import { Relic, Shards, Shards__factory, Relic__factory } from 'types/typechain';
+import {
+  Relic,
+  Shards,
+  Shards__factory,
+  Relic__factory,
+  TempleSacrifice__factory,
+  ERC20__factory,
+} from 'types/typechain';
 import { Nullable } from 'types/util';
 import { asyncNoop } from 'utils/helpers';
+import useRequestState from 'hooks/use-request-state';
 import { useSigner } from 'wagmi';
 import { NoWalletAddressError } from './errors';
 import { useNotification } from './NotificationProvider';
 import { useWallet } from './WalletProvider';
+import { TICKER_SYMBOL } from 'enums/ticker-symbol';
+import { getBigNumberFromString } from 'components/Vault/utils';
 
 const INITIAL_STATE: RelicService = {
   inventory: null,
   inventoryLoading: false,
   updateInventory: asyncNoop,
   mintRelic: async () => null,
-  renounceRelic: async () => null,
-  mintShard: asyncNoop,
   equipShards: asyncNoop,
   unequipShards: asyncNoop,
   transmute: asyncNoop,
+  checkWhiteList: {
+    handler: asyncNoop,
+    isLoading: false,
+    error: null,
+    isWhitelisted: false,
+  },
+  sacrificeTemple: {
+    handler: asyncNoop,
+    isLoading: false,
+    error: null,
+  },
 };
 
 const TXN_SUCCESS_CODE = 1;
@@ -29,10 +48,11 @@ const RelicContext = createContext(INITIAL_STATE);
 
 export const RelicProvider = (props: PropsWithChildren<{}>) => {
   const { data: signer } = useSigner();
-  const { wallet } = useWallet();
+  const { wallet, ensureAllowance } = useWallet();
   const { openNotification } = useNotification();
 
   const [inventoryState, setInventoryState] = useState<Nullable<ItemInventory>>(INITIAL_STATE.inventory);
+
   // TODO: Also handle error
   const [inventoryLoading, setInventoryLoading] = useState(false);
 
@@ -42,8 +62,7 @@ export const RelicProvider = (props: PropsWithChildren<{}>) => {
     }
 
     const relicContract = new Relic__factory(signer).attach(env.nexus.templeRelicAddress);
-    // TODO: Update with shards
-    const relicItemsContract = new Shards__factory(signer).attach(env.nexus.templeShardsAddress);
+    const shardsContract = new Shards__factory(signer).attach(env.nexus.templeShardsAddress);
 
     const itemIds = [...Array(200).keys()];
 
@@ -78,7 +97,7 @@ export const RelicProvider = (props: PropsWithChildren<{}>) => {
 
     const relics = await fetchRelicIds().then(fetchRelicData);
     const addresses = itemIds.map((_) => walletAddress);
-    const items = extractValidItems(await relicItemsContract.balanceOfBatch(addresses, itemIds));
+    const items = extractValidItems(await shardsContract.balanceOfBatch(addresses, itemIds));
     return { relics, items };
   };
 
@@ -110,11 +129,11 @@ export const RelicProvider = (props: PropsWithChildren<{}>) => {
   const transmute = async (recipeId: number) => {
     if (signer) {
       // TODO: Add error handling
-      const relicItemsContract = new Shards__factory(signer).attach(env.nexus.templeShardsAddress);
+      const shardsContract = new Shards__factory(signer).attach(env.nexus.templeShardsAddress);
 
       let receipt: ContractReceipt;
       try {
-        const txnReceipt = await relicItemsContract.transmute(recipeId);
+        const txnReceipt = await shardsContract.transmute(recipeId);
         receipt = await txnReceipt.wait();
       } catch (error: any) {
         console.log(error.message);
@@ -174,28 +193,6 @@ export const RelicProvider = (props: PropsWithChildren<{}>) => {
     return null;
   };
 
-  const renounceRelic = async (relicId: BigNumber) => {
-    const result = await callRelicFunctionAndDiffRelics((relic) => relic.renounceRelic(relicId));
-    if (result && result.removed.length > 0) {
-      openNotification({
-        title: `Renounced ${joinRelicLabels(result.removed)}`,
-        hash: result.receipt.transactionHash,
-      });
-      return result.removed[0];
-    }
-    return null;
-  };
-
-  const mintShard = async (itemId: number) => {
-    const result = await callShardsContractFunction((shardsContract) => shardsContract.mintFromUser(itemId));
-    if (result) {
-      openNotification({
-        title: `Minted Relic Item #${itemId.toString()}`,
-        hash: result.receipt.transactionHash,
-      });
-    }
-  };
-
   const equipShards = async (relicId: BigNumber, items: RelicItemData[]) => {
     if (items.length == 0) {
       return;
@@ -253,6 +250,46 @@ export const RelicProvider = (props: PropsWithChildren<{}>) => {
     }
   };
 
+  const [isWhitelisted, setIsWhitelisted] = useState(false);
+
+  const checkWhiteList = async () => {
+    if (!wallet || !signer) {
+      return;
+    }
+
+    const relicContract = new Relic__factory(signer).attach(env.nexus.templeRelicAddress);
+    const receipt = await relicContract.whitelisted(wallet);
+    setIsWhitelisted(receipt);
+  };
+
+  const sacrificeTemple = async () => {
+    if (!wallet || !signer) {
+      return;
+    }
+
+    const TEMPLE_SACRIFICE_AMOUNT = '10.5';
+    const TEMPLE = new ERC20__factory(signer).attach(env.nexus.templeToken);
+    const allowanceAmount = getBigNumberFromString(TEMPLE_SACRIFICE_AMOUNT, await TEMPLE.decimals());
+    await ensureAllowance(TICKER_SYMBOL.TEMPLE_TOKEN, TEMPLE, env.nexus.templeSacrificeAddress, allowanceAmount);
+
+    const sacrificeContract = new TempleSacrifice__factory(signer).attach(env.nexus.templeSacrificeAddress);
+    const txn = await sacrificeContract.sacrifice();
+    const receipt = await txn.wait();
+
+    openNotification({
+      title: 'Sacrifice Complete',
+      hash: receipt.transactionHash,
+    });
+  };
+
+  const [sacrificeTempleHandler, sacrificeTempleRequestState] = useRequestState(sacrificeTemple, {
+    shouldReThrow: true,
+  });
+
+  const [checkWhiteListHandler, checkWhiteListRequestState] = useRequestState(checkWhiteList, {
+    shouldReThrow: true,
+  });
+
   return (
     <RelicContext.Provider
       value={{
@@ -262,11 +299,20 @@ export const RelicProvider = (props: PropsWithChildren<{}>) => {
           await updateInventory();
         },
         mintRelic,
-        renounceRelic,
-        mintShard,
         equipShards,
         unequipShards,
         transmute,
+        checkWhiteList: {
+          handler: checkWhiteListHandler,
+          isLoading: checkWhiteListRequestState.isLoading,
+          error: checkWhiteListRequestState.error,
+          isWhitelisted,
+        },
+        sacrificeTemple: {
+          handler: sacrificeTempleHandler,
+          isLoading: sacrificeTempleRequestState.isLoading,
+          error: sacrificeTempleRequestState.error,
+        },
       }}
     >
       {props.children}

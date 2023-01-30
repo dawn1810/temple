@@ -125,9 +125,10 @@ const env: Environment = {
   },
   templeMultisig: '0x3a320fF715dCBbF097e15257B7051dd08fdfb7A2',
   nexus: {
-    templeRelicAddress: '0xbb8bB20DA64D4C595eb4Ac8A7cC2cBDcFBfB4306',
+    templeRelicAddress: '0xCf21B717fd34dA92006aAefc041fFdb86b708529',
     templeShardsAddress: '0xaBf139511C381f7804EdD6E4c78383b775d8CeeF',
-    templeSacrificeAddress: '',
+    templeSacrificeAddress: '0xD0A07fc8Bfe7e2846A67B8C34C6b573Aff5e2511',
+    templeToken: '0xB8FeDaCB1780b3936251b1b0169b4E11A5bA8277',
     recipes: [
       { id: 0, required_ids: [0, 1], required_amounts: [1, 1], reward_ids: [2], reward_amounts: [1] },
       { id: 2, required_ids: [0, 1], required_amounts: [2, 3], reward_ids: [2], reward_amounts: [1] },

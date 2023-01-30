@@ -134,6 +134,7 @@ const env: Environment = {
     templeRelicAddress: '',
     templeShardsAddress: '',
     templeSacrificeAddress: '',
+    templeToken: '',
     recipes: [],
     shardMetadata: {},
     quests: [],

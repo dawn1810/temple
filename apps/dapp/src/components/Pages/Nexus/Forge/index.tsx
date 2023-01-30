@@ -168,8 +168,10 @@ const ForgePage = () => {
         {inventoryLoading && <NexusLoading />}
         {!inventoryLoading && (
           <>
-            <NexusTitle>Forge</NexusTitle>
-            <NexusSubtitle>Combine Shards to Forge</NexusSubtitle>
+            <TitleContainer>
+              <NexusTitle>Forge</NexusTitle>
+              <NexusSubtitle>Combine Shards to Forge</NexusSubtitle>
+            </TitleContainer>
             <ForgeResultWrapper>
               {forgeResult === null ? (
                 <EmptyCell />
@@ -210,6 +212,14 @@ const ForgePage = () => {
   );
 };
 
+const TitleContainer = styled.div`
+  display: flex
+  flex-direction: column;
+  background: #000000b3;
+  padding-top: 10px;
+  margin-bottom: 20px;
+`;
+
 const PanelHeading = styled.div`
   display: flex;
   flex-direction: row;
@@ -229,7 +239,6 @@ const ForgeWrapper = styled.div`
   align-items: center;
   height: 100%;
   background-image: url('${forgeBackground}');
-  // background-size: cover;
   background-repeat: repeat-y;
   background-position-x: center;
   background-position-y: top;
@@ -247,17 +256,6 @@ const InventoryContainer = styled.div`
   flex-direction: column;
   position: relative;
 `;
-
-const ForgeBackground = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  // background-size: cover;
-  // background-position: center;
-  // background-attachment: local;
-  `;
 
 const ForgeRamp = styled(Image)`
   width: 100%;
@@ -362,6 +360,7 @@ const NexusPanel = styled.div<{ color?: string }>`
   padding: 1rem;
   background-color: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(15px);
+  background: #000000cc;
 
   > * {
     margin-bottom: 1rem;
