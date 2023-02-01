@@ -108,6 +108,7 @@ const env: Environment = {
     templeRelicAddress: '0x9CaFd1421aAa1015b64F755Ff49499455f46cA70',
     templeShardsAddress: '0x4EA1C78102d2C201cFc98fd53b634Cc01294771c',
     templeSacrificeAddress: '',
+    templeToken: '',
     recipes: [
       { id: 0, required_ids: [0, 1], required_amounts: [1, 1], reward_ids: [2], reward_amounts: [1] },
       { id: 2, required_ids: [0, 1], required_amounts: [2, 3], reward_ids: [2], reward_amounts: [1] },
