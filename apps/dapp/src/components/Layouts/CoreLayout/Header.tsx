@@ -73,6 +73,7 @@ function getMenuItems(mode: HeaderMode) {
         { title: 'Relic', path: '/nexus/relic' },
         { title: 'Quests', path: '/nexus/quests' },
         { title: 'Forge', path: '/nexus/forge' },
+        { title: 'Help', path: '/nexus/help' },
       ]);
   }
 }

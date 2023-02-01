@@ -32,6 +32,8 @@ import { Unstake } from 'components/Pages/Core/Trade/views/Unstake';
 import NexusPage from 'components/Pages/Nexus/Relic';
 import QuestPage from 'components/Pages/Nexus/Quest';
 import ForgePage from 'components/Pages/Nexus/Forge';
+import NexusUserManual from 'components/Pages/Nexus/Manual/UserManual';
+import NexusPartnerManual from 'components/Pages/Nexus/Manual/PartnerManual';
 
 // Separate Chunks
 const TeamPayments = React.lazy(() => import('components/Pages/TeamPayments'));
@@ -120,6 +122,8 @@ ReactDOM.render(
                 <Route path="relic/*" element={<NexusPage />} />
                 <Route path="quests/*" element={<QuestPage />} />
                 <Route path="forge/*" element={<ForgePage />} />
+                <Route path="help" element={<NexusUserManual />} />
+                <Route path="partner" element={<NexusPartnerManual />} />
               </Route>
             </>
           )}
