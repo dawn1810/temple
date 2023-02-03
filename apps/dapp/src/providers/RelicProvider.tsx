@@ -19,7 +19,7 @@ import { NoWalletAddressError } from './errors';
 import { useNotification } from './NotificationProvider';
 import { useWallet } from './WalletProvider';
 import { TICKER_SYMBOL } from 'enums/ticker-symbol';
-import { getBigNumberFromString } from 'components/Vault/utils';
+import { ZERO } from 'utils/bigNumber';
 
 const INITIAL_STATE: RelicService = {
   inventory: null,
@@ -36,9 +36,15 @@ const INITIAL_STATE: RelicService = {
     isWhitelisted: false,
   },
   sacrificeTemple: {
+    handler: async () => {},
+    isLoading: false,
+    error: null,
+  },
+  fetchSacrificePrice: {
     handler: asyncNoop,
     isLoading: false,
     error: null,
+    sacrificePrice: ZERO,
   },
 };
 
@@ -262,15 +268,13 @@ export const RelicProvider = (props: PropsWithChildren<{}>) => {
     setIsWhitelisted(receipt);
   };
 
-  const sacrificeTemple = async () => {
+  const sacrificeTemple = async (amount: BigNumber) => {
     if (!wallet || !signer) {
       return;
     }
 
-    const TEMPLE_SACRIFICE_AMOUNT = '10.5';
     const TEMPLE = new ERC20__factory(signer).attach(env.nexus.templeToken);
-    const allowanceAmount = getBigNumberFromString(TEMPLE_SACRIFICE_AMOUNT, await TEMPLE.decimals());
-    await ensureAllowance(TICKER_SYMBOL.TEMPLE_TOKEN, TEMPLE, env.nexus.templeSacrificeAddress, allowanceAmount);
+    await ensureAllowance(TICKER_SYMBOL.TEMPLE_TOKEN, TEMPLE, env.nexus.templeSacrificeAddress, amount);
 
     const sacrificeContract = new TempleSacrifice__factory(signer).attach(env.nexus.templeSacrificeAddress);
     const txn = await sacrificeContract.sacrifice();
@@ -287,6 +291,22 @@ export const RelicProvider = (props: PropsWithChildren<{}>) => {
   });
 
   const [checkWhiteListHandler, checkWhiteListRequestState] = useRequestState(checkWhiteList, {
+    shouldReThrow: true,
+  });
+
+  const fetchSacrificePrice = async () => {
+    if (!wallet || !signer) {
+      return;
+    }
+
+    const sacrificeContract = new TempleSacrifice__factory(signer).attach(env.nexus.templeSacrificeAddress);
+    const price: BigNumber = await sacrificeContract.getPrice();
+    setSacrificePrice(price);
+  };
+
+  const [sacrificePrice, setSacrificePrice] = useState(ZERO);
+
+  const [fetchSacrificePriceHandler, fetchSacrificePriceRequestState] = useRequestState(fetchSacrificePrice, {
     shouldReThrow: true,
   });
 
@@ -312,6 +332,12 @@ export const RelicProvider = (props: PropsWithChildren<{}>) => {
           handler: sacrificeTempleHandler,
           isLoading: sacrificeTempleRequestState.isLoading,
           error: sacrificeTempleRequestState.error,
+        },
+        fetchSacrificePrice: {
+          handler: fetchSacrificePriceHandler,
+          isLoading: fetchSacrificePriceRequestState.isLoading,
+          error: fetchSacrificePriceRequestState.error,
+          sacrificePrice,
         },
       }}
     >

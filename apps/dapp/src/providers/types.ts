@@ -169,8 +169,14 @@ export interface RelicService {
     error: Nullable<Error>;
   };
   sacrificeTemple: {
-    handler(): Promise<void>;
+    handler(amount: BigNumber): Promise<void>;
     isLoading: boolean;
     error: Nullable<Error>;
   };
+  fetchSacrificePrice: {
+    handler(): Promise<void>;
+    isLoading: boolean;
+    error: Nullable<Error>;
+    sacrificePrice: BigNumber;
+  },
 }

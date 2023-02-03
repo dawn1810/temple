@@ -11,17 +11,32 @@ import { useEffect } from 'react';
 import { NexusLoading } from '.';
 import { useWallet } from 'providers/WalletProvider';
 import { useAccount } from 'wagmi';
+import { formatBigNumber } from 'components/Vault/utils';
+import { BigNumber } from 'ethers';
 
 export const NoRelicPanel = (props: { inventory: ItemInventory }) => {
   const { relics } = props.inventory;
   const { signer } = useWallet();
   const { address } = useAccount();
 
-  const { checkWhiteList } = useRelic();
+  const { checkWhiteList, fetchSacrificePrice } = useRelic();
+  const {
+    error: checkWhitelistError,
+    handler: checkWhitelistHandler,
+    isLoading: checkWhitelistLoading,
+    isWhitelisted,
+  } = checkWhiteList;
+  const {
+    error: fetchSacrificePriceError,
+    handler: fetchSacrificePriceHandler,
+    isLoading: sacrificePriceLoading,
+    sacrificePrice,
+  } = fetchSacrificePrice;
 
   useEffect(() => {
     if (signer && address) {
-      checkWhiteList.handler();
+      checkWhitelistHandler();
+      fetchSacrificePriceHandler();
     }
   }, [signer, address]);
 
@@ -29,28 +44,36 @@ export const NoRelicPanel = (props: { inventory: ItemInventory }) => {
     return <Navigate to={`../${relics[0].id.toString()}`} />;
   }
 
+  const isLoading = checkWhitelistLoading || sacrificePriceLoading;
+
   return (
     <>
-      {checkWhiteList.isLoading && <NexusLoading />}
-      {checkWhiteList.isWhitelisted && (
+      {isLoading && <NexusLoading />}
+      {isWhitelisted && (
         <>
           <h3>You do not yet possess a Relic</h3>
           <MintRelicPanel />
         </>
       )}
-      {!checkWhiteList.isLoading && !checkWhiteList.isWhitelisted && <SacrificePanel />}
+      {!isLoading && !isWhitelisted && <SacrificePanel amount={sacrificePrice} />}
+      {checkWhitelistError && <div>Error while checking whitelist!</div>}
+      {fetchSacrificePriceError && <div>Error while checking sacrifice price!</div>}
     </>
   );
 };
 
-const SacrificePanel = () => {
+type SacrificeUIProps = {
+  amount: BigNumber;
+};
+
+const SacrificePanel = (props: SacrificeUIProps) => {
   return (
     <NexusPanel>
       <SacrificePanelRow>Are you worthy...?</SacrificePanelRow>
       <Image width={300} src={centerCircle}></Image>
       <PriceRow>price:</PriceRow>
-      <TempleRow>10.5 TEMPLE</TempleRow>
-      <SacrificeButton />
+      <TempleRow>{formatBigNumber(props.amount)} TEMPLE</TempleRow>
+      <SacrificeButton amount={props.amount} />
     </NexusPanel>
   );
 };
@@ -80,7 +103,7 @@ const SacrificePanelRow = styled.h3`
   padding-bottom: 10px;
 `;
 
-const SacrificeButton = () => {
+const SacrificeButton = (props: SacrificeUIProps) => {
   const { sacrificeTemple } = useRelic();
 
   return (
@@ -88,9 +111,7 @@ const SacrificeButton = () => {
       label={'Sacrifice'}
       loading={sacrificeTemple.isLoading}
       onClick={async () => {
-        console.log('foo');
-        await sacrificeTemple.handler();
-        console.log('foo');
+        await sacrificeTemple.handler(props.amount);
       }}
     />
   );

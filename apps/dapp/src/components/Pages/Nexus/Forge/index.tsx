@@ -1,5 +1,5 @@
 // import forgeBackground from 'assets/images/nexus/forge-bg-new.png';
-import forgeBackground from 'assets/images/nexus/NewForgeBackground-2.png';
+import forgeBackground from 'assets/images/nexus/forge-bg-new-hires.png';
 import forgeRamp from 'assets/images/nexus/forge_ramp.png';
 import { useRelic } from 'providers/RelicProvider';
 import { RelicItemData } from 'providers/types';
@@ -160,11 +160,7 @@ const ForgePage = () => {
 
   return (
     <ForgeWrapper>
-      {/* <ForgeBackground
-        style={{
-          backgroundImage: `url(${forgeBackground})`,
-        }}
-      /> */}
+      <ForgeBackground src={forgeBackground} />
       <ForgePanel>
         {inventoryLoading && <NexusLoading />}
         {!inventoryLoading && (
@@ -233,15 +229,18 @@ const EmptyCell = styled.div`
   border-radius: 15%;
 `;
 
+const ForgeBackground = styled(Image)`
+  position: absolute;
+  top: -350px;
+  width: 2500px;
+`;
+
 const ForgeWrapper = styled.div`
   margin-top: 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
   height: 100%;
-  background-image: url('${forgeBackground}');
-  background-position-x: center;
-  background-position-y: top;
   /* full width */
   position: absolute;
   left: 0px;
