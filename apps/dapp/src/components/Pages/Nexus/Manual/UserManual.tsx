@@ -1,13 +1,12 @@
-import styled from 'styled-components';
-import Image from '../../../Image/Image';
 import userManualLogo from '../../../../assets/images/nexus/usermanual.png';
 import shardsLogo from '../../../../assets/images/nexus/usermanualshards.png';
+import { ContentContainer, ManualImage, Paragraph, Subtitle, Title, ManualContainer } from './styles';
 
 const NexusUserManual = () => {
   return (
-    <UserManualContainer>
+    <ManualContainer>
       <ContentContainer>
-        <UserManualImage src={userManualLogo} />
+        <ManualImage src={userManualLogo} />
         <Title>What is Temple Nexus?</Title>
         <Paragraph>
           Temple Nexus is the gateway into the Temple Ecosystem and its partner protocols. It allows users to chronicle
@@ -30,7 +29,7 @@ const NexusUserManual = () => {
           price of minting begins at 10 $TEMPLE and rises over the time of a year, capped at 50 $TEMPLE. The tokens used
           for the sacrifice are burned forever.
         </Paragraph>
-        <UserManualImage src={shardsLogo} />
+        <ManualImage src={shardsLogo} />
         <Title>Shards</Title>
         <Paragraph>
           If Relics are like passports, then Shards are like the stamps within the passports. Each experience or
@@ -49,45 +48,8 @@ const NexusUserManual = () => {
         <Paragraph>Some Shards are obtainable only through transmutation.</Paragraph>
         <Paragraph>Click [Insert Link] to gain deeper information about mechanics in our Gitbook Guide.</Paragraph>
       </ContentContainer>
-    </UserManualContainer>
+    </ManualContainer>
   );
 };
-
-const Paragraph = styled.p`
-  font-size: 18px;
-  line-height: 1.5;
-`;
-
-const Subtitle = styled.div`
-  font-size: 18px;
-  font-style: italic;
-  color: ${(props) => props.color ?? props.theme.palette.brand};
-`;
-
-const Title = styled.div`
-  font-size: 24px;
-  color: ${(props) => props.color ?? props.theme.palette.brand};
-`;
-
-const UserManualImage = styled(Image)`
-  width: 800px;
-  padding-top: 20px;
-  padding-bottom: 20px;
-`;
-
-const ContentContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 800px;
-  align-items: flex-start:
-`;
-
-const UserManualContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-  justify-content: center;
-  align-items: center;
-`;
 
 export default NexusUserManual;
