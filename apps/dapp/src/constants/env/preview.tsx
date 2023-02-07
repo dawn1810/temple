@@ -1,6 +1,3 @@
-// TODO: In this branch, preview is configured for nexus.
-// BUT SHOULD NOT BE MERGED LIKE THIS
-// Revert to normal state before merging
 import { ADDRESS_ZERO } from 'utils/bigNumber';
 import { RARITY_TYPE } from 'components/Pages/Nexus/types';
 import { Environment } from './types';
@@ -18,7 +15,7 @@ const env: Environment = {
     usdc: '0x07865c6e87b9f70255377e024ace6630c1eaa37f',
     usdt: '',
     dai: '0x8c9e6c40d3402480ace624730524facc5482798c',
-    weth: '0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6',
+    weth: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
     frax3CrvFarming: '',
     frax3CrvFarmingRewards: '',
     lockedOgTemple: '0x564462C807600684965d8A8f57eA190F2F66169C',
@@ -121,7 +118,7 @@ const env: Environment = {
     templeRelicAddress: '0xCf21B717fd34dA92006aAefc041fFdb86b708529',
     templeShardsAddress: '0xaBf139511C381f7804EdD6E4c78383b775d8CeeF',
     templeSacrificeAddress: '0xD0A07fc8Bfe7e2846A67B8C34C6b573Aff5e2511',
-    templeToken: '0xB8FeDaCB1780b3936251b1b0169b4E11A5bA827',
+    templeToken: '0xB8FeDaCB1780b3936251b1b0169b4E11A5bA8277',
     recipes: [
       { id: 0, required_ids: [0, 1], required_amounts: [1, 1], reward_ids: [2], reward_amounts: [1] },
       { id: 2, required_ids: [0, 1], required_amounts: [2, 3], reward_ids: [2], reward_amounts: [1] },

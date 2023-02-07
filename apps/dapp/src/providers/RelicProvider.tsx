@@ -110,7 +110,8 @@ export const RelicProvider = (props: PropsWithChildren<{}>) => {
   const updateInventory = async () => {
     // TODO: Better handle this, bubble up to UI
     if (!wallet) {
-      throw new NoWalletAddressError();
+      // throw new NoWalletAddressError();
+      return;
     }
 
     if (!signer) {
