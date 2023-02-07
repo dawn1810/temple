@@ -280,6 +280,8 @@ export const RelicProvider = (props: PropsWithChildren<{}>) => {
     const txn = await sacrificeContract.sacrifice();
     const receipt = await txn.wait();
 
+    setIsWhitelisted(true);
+
     openNotification({
       title: 'Sacrifice Complete',
       hash: receipt.transactionHash,
