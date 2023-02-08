@@ -105,8 +105,8 @@ export const WrongNetworkPopover = () => {
 
 const ENV_CHAIN_MAPPING = new Map<string, Chain>();
 if (env.featureFlags.nexusOnlyMode) {
-  ENV_CHAIN_MAPPING.set('production', arbitrum);
-  ENV_CHAIN_MAPPING.set('preview', arbitrumGoerli);
+  ENV_CHAIN_MAPPING.set('production-nexus', arbitrum);
+  ENV_CHAIN_MAPPING.set('preview-nexus', arbitrumGoerli);
   ENV_CHAIN_MAPPING.set('local', LOCAL_CHAIN);  
 } else {
   ENV_CHAIN_MAPPING.set('production', mainnet);
