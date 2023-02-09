@@ -7,16 +7,17 @@ import Image from 'components/Image/Image';
 import centerCircle from 'assets/images/nexus/central_circle.png';
 import { Button } from 'components/Button/Button';
 import { useRelic } from 'providers/RelicProvider';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { NexusLoading } from '.';
 import { useWallet } from 'providers/WalletProvider';
 import { useAccount } from 'wagmi';
 import { formatBigNumber } from 'components/Vault/utils';
 import { BigNumber } from 'ethers';
+import { Account } from 'components/Layouts/CoreLayout/Account';
 
 export const NoRelicPanel = (props: { inventory: ItemInventory }) => {
   const { relics } = props.inventory;
-  const { signer } = useWallet();
+  const { wallet, signer, isConnected } = useWallet();
   const { address } = useAccount();
 
   const { checkWhiteList, fetchSacrificePrice } = useRelic();
@@ -40,6 +41,16 @@ export const NoRelicPanel = (props: { inventory: ItemInventory }) => {
     }
   }, [signer, address]);
 
+  const [showConnect, setShowConnect] = useState(true);
+
+  useEffect(() => {
+    if (isConnected && wallet) {
+      setShowConnect(false);
+    } else {
+      setShowConnect(true);
+    }
+  }, [wallet, isConnected]);
+
   if (relics.length > 0) {
     return <Navigate to={`../${relics[0].id.toString()}`} />;
   }
@@ -48,16 +59,27 @@ export const NoRelicPanel = (props: { inventory: ItemInventory }) => {
 
   return (
     <>
-      {isLoading && <NexusLoading />}
-      {isWhitelisted && (
+      {showConnect ? (
+        <ConnectWalletContainer>
+          <ConnectWalletText>Connect Wallet to Continue</ConnectWalletText>
+          <ConnectButtonWrapper>
+            <Account />
+          </ConnectButtonWrapper>
+        </ConnectWalletContainer>
+      ) : (
         <>
-          <h3>You do not yet possess a Relic</h3>
-          <MintRelicPanel />
+          {isLoading && <NexusLoading />}
+          {isWhitelisted && (
+            <>
+              <h3>You do not yet possess a Relic</h3>
+              <MintRelicPanel />
+            </>
+          )}
+          {!isLoading && !isWhitelisted && <SacrificePanel amount={sacrificePrice} />}
+          {checkWhitelistError && <div>Error while checking whitelist!</div>}
+          {fetchSacrificePriceError && <div>Error while checking sacrifice price!</div>}
         </>
       )}
-      {!isLoading && !isWhitelisted && <SacrificePanel amount={sacrificePrice} />}
-      {checkWhitelistError && <div>Error while checking whitelist!</div>}
-      {fetchSacrificePriceError && <div>Error while checking sacrifice price!</div>}
     </>
   );
 };
@@ -77,6 +99,24 @@ const SacrificePanel = (props: SacrificeUIProps) => {
     </NexusPanel>
   );
 };
+
+const ConnectWalletText = styled.div`
+  font-size: 1.75rem;
+  margin: auto;
+  color: ${({ theme }) => theme.palette.brandLight};
+  padding-bottom: 20px;
+`;
+
+const ConnectButtonWrapper = styled.div`
+  width: 200px;
+  margin: auto;
+`;
+
+const ConnectWalletContainer = styled.div`
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+`;
 
 const TempleRow = styled.div`
   margin: auto;

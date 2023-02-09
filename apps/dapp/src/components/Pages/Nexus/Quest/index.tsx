@@ -19,6 +19,9 @@ const QuestPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!isConnected || !wallet) {
+      navigate('/nexus/relic');
+    }
     updateInventory();
   }, [wallet, isConnected]);
 
