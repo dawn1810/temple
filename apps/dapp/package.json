@@ -6,7 +6,7 @@
   },
   "scripts": {
     "prepare": "yarn typechain:compile && yarn typechain:copy",
-    "typechain:compile": "cd ../../protocol && yarn compile --force",
+    "typechain:compile": "yarn workspace @temple/protocol compile --force",
     "typechain:copy": "cp -r ../../protocol/typechain ./src/types",
     "dev": "vite",
     "compile": "tsc",
