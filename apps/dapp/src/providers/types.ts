@@ -1,18 +1,18 @@
 import { Network } from '@ethersproject/providers';
 import { BigNumber, ContractReceipt, Signer, ContractTransaction } from 'ethers';
 
-import { Maybe, Nullable } from 'types/util';
+import { Nullable } from 'types/util';
 import { TransactionReceipt } from '@ethersproject/abstract-provider';
 import { TICKER_SYMBOL } from 'enums/ticker-symbol';
 import { Sor, SwapInfo } from '@balancer-labs/sdk';
 
 // The ordering of this enum must match the definition in Relic.sol
 export enum RelicEnclave {
-  Logic,
-  Structure,
-  Order,
-  Mystery,
   Chaos,
+  Mystery,
+  Logic,
+  Order,
+  Structure,
 }
 
 // The ordering of this enum must match the definition in Relic.sol
