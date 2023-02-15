@@ -5,6 +5,7 @@ import MintRelicPanel from './MintRelicPanel';
 import { NexusPanel } from './styles';
 import Image from 'components/Image/Image';
 import centerCircle from 'assets/images/nexus/central_circle.png';
+import templeUniswap from 'assets/images/nexus/templeuniswap.png';
 import { Button } from 'components/Button/Button';
 import { useRelic } from 'providers/RelicProvider';
 import { useEffect, useState } from 'react';
@@ -14,6 +15,7 @@ import { useAccount } from 'wagmi';
 import { formatBigNumber } from 'components/Vault/utils';
 import { BigNumber } from 'ethers';
 import { Account } from 'components/Layouts/CoreLayout/Account';
+import Tooltip from 'components/Tooltip/Tooltip';
 
 export const NoRelicPanel = (props: { inventory: ItemInventory }) => {
   const { relics } = props.inventory;
@@ -88,17 +90,62 @@ type SacrificeUIProps = {
   amount: BigNumber;
 };
 
+const TooltipContent = styled.div`
+  * {
+    color: ${({ theme }) => theme.palette.brandLight};
+  }
+  p {
+    font-size: ${({ theme }) => theme.typography.meta};
+  }
+`;
+
+const tooltipContent = (
+  <TooltipContent>
+    <>
+      <p>
+        If you do not yet have Arbitrum TEMPLE, you may bridge them from Ethereum, or acquire them on Arbitrum by
+        clicking on the Uniswap button below.
+      </p>
+    </>
+  </TooltipContent>
+);
+
 const SacrificePanel = (props: SacrificeUIProps) => {
+  const { sacrificeTemple } = useRelic();
+
   return (
     <NexusPanel>
       <SacrificePanelRow>Are you worthy...?</SacrificePanelRow>
       <Image width={300} src={centerCircle}></Image>
-      <PriceRow>price:</PriceRow>
-      <TempleRow>{formatBigNumber(props.amount)} TEMPLE</TempleRow>
-      <SacrificeButton amount={props.amount} />
+      <h3>{'Welcome, Seekers.'}</h3>
+      <PriceRow>
+        {'To prove yourself worthy to enter the Nexus, you must sacrifice some TEMPLE'}
+        <Tooltip inline content={tooltipContent}>
+          &nbsp; ⓘ
+        </Tooltip>
+      </PriceRow>
+      <a
+        href="https://app.uniswap.org/#/swap?inputCurrency=ETH&outputCurrency=0x6d2caf65163ff290ec2a362d6e413fae4643f90e"
+        target="_new"
+      >
+        <GetTempleButton>
+          <UniswapImage src={templeUniswap} width={30} /> Get Temple
+        </GetTempleButton>
+      </a>
+      <SacrificeButton
+        label={`Sacrifice ${formatBigNumber(props.amount)} TEMPLE`}
+        loading={sacrificeTemple.isLoading}
+        onClick={async () => {
+          await sacrificeTemple.handler(props.amount);
+        }}
+      />
     </NexusPanel>
   );
 };
+
+const UniswapImage = styled(Image)`
+  vertical-align: bottom;
+`;
 
 const ConnectWalletText = styled.div`
   font-size: 1.75rem;
@@ -118,24 +165,13 @@ const ConnectWalletContainer = styled.div`
   flex-direction: column;
 `;
 
-const TempleRow = styled.div`
-  margin: auto;
-  padding-bottom: 10px;
-  font-family: Megant, serif;
-  color: #bd7b4f;
-  font-size: 24px;
-  border: 0.0625rem solid ${(props) => props.color ?? props.theme.palette.brand};
-  border-radius: 16px;
-  padding: 10px;
-  background: #000;
-`;
-
 const PriceRow = styled.div`
   margin: auto;
+  text-align: center;
   padding-bottom: 10px;
   font-family: Megant, serif;
   color: #bd7b4f;
-  font-size: 24px;
+  font-size: 18px;
 `;
 
 const SacrificePanelRow = styled.h3`
@@ -143,22 +179,8 @@ const SacrificePanelRow = styled.h3`
   padding-bottom: 10px;
 `;
 
-const SacrificeButton = (props: SacrificeUIProps) => {
-  const { sacrificeTemple } = useRelic();
-
-  return (
-    <SacrificeButtonStyled
-      label={'Sacrifice'}
-      loading={sacrificeTemple.isLoading}
-      onClick={async () => {
-        await sacrificeTemple.handler(props.amount);
-      }}
-    />
-  );
-};
-
-const SacrificeButtonStyled = styled(Button)`
-  width: 200px;
+const GetTempleButton = styled(Button)`
+  width: 300px;
   margin-top: 1rem;
   background: ${({ theme }) => theme.palette.gradients.dark};
   border: 2px solid ${({ theme }) => theme.palette.brandDark};
@@ -166,7 +188,20 @@ const SacrificeButtonStyled = styled(Button)`
   border-radius: 0.75rem;
   letter-spacing: 0.1rem;
   text-transform: uppercase;
-  text-shadow: 0 0 20px #fff;
+  // text-shadow: 0 0 20px #fff;
+  padding-bottom: 4px;
+`;
+
+const SacrificeButton = styled(Button)`
+  width: 300px;
+  margin-top: 1rem;
+  background: ${({ theme }) => theme.palette.gradients.dark};
+  border: 2px solid ${({ theme }) => theme.palette.brandDark};
+  box-shadow: 0px 0px 20px rgba(222, 92, 6, 0.4);
+  border-radius: 0.75rem;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  // text-shadow: 0 0 20px #fff;
 `;
 
 export default MintRelicPanel;
