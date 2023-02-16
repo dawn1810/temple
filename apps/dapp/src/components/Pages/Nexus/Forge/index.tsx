@@ -1,4 +1,3 @@
-// import forgeBackground from 'assets/images/nexus/forge-bg-new.png';
 import forgeBackground from 'assets/images/nexus/forge-bg-new-hires.png';
 import forgeRamp from 'assets/images/nexus/forge_ramp.png';
 import { useRelic } from 'providers/RelicProvider';
@@ -249,6 +248,7 @@ const ForgeWrapper = styled.div`
   left: 0px;
   right: 0px;
   top: 0px;
+  background-color: #000;
 `;
 
 const InventoryContainer = styled.div`
@@ -360,7 +360,7 @@ const NexusPanel = styled.div<{ color?: string }>`
   border: 0.0625rem solid ${(props) => props.color ?? props.theme.palette.brand};
   border-radius: 16px;
   padding: 1rem;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(15px);
   background: #000000cc;
 
