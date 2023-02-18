@@ -217,6 +217,7 @@ const TitleContainer = styled.div`
   background: #000000b3;
   padding-top: 10px;
   margin-bottom: 20px;
+  z-index: 1;
 `;
 
 const PanelHeading = styled.div`

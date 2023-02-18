@@ -95,7 +95,7 @@ const env: Environment = {
     },
   },
   network: 1,
-  etherscan: 'https://etherscan.io',
+  etherscan: 'https://arbiscan.io',
   subgraph: {
     templeCore: 'https://api.thegraph.com/subgraphs/name/templedao/templedao-core',
     protocolMetrics: 'https://api.thegraph.com/subgraphs/name/templedao/templedao-metrics',
