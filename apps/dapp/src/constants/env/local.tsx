@@ -108,7 +108,7 @@ const env: Environment = {
     },
   },
   network: 5,
-  etherscan: 'https://goerli.etherscan.io',
+  etherscan: 'https://goerli.arbiscan.io',
   featureFlags: {
     enableAscend: false,
     nexusOnlyMode: true,
