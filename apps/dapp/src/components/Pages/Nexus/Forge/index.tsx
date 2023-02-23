@@ -169,7 +169,7 @@ const ForgePage = () => {
           <>
             <TitleContainer>
               <NexusTitle>Forge</NexusTitle>
-              <NexusSubtitle>Combine Shards to Forge</NexusSubtitle>
+              <NexusSubtitle>Combine Shards to Transmute</NexusSubtitle>
             </TitleContainer>
             <ForgeResultWrapper>
               {forgeResult === null ? (

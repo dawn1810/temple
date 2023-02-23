@@ -150,7 +150,8 @@ export interface WalletState {
     // Should be ERC20, need to update Typechain (fix is in 8.0.x)
     erc20Token: any,
     spender: string,
-    minAllowance: BigNumber
+    minAllowance: BigNumber,
+    explicitAllowance?: BigNumber
   ): Promise<void>;
 }
 
@@ -178,5 +179,5 @@ export interface RelicService {
     isLoading: boolean;
     error: Nullable<Error>;
     sacrificePrice: BigNumber;
-  },
+  };
 }

@@ -20,6 +20,7 @@ import { useNotification } from './NotificationProvider';
 import { useWallet } from './WalletProvider';
 import { TICKER_SYMBOL } from 'enums/ticker-symbol';
 import { ZERO } from 'utils/bigNumber';
+import { formatNumber } from 'utils/formatter';
 
 const INITIAL_STATE: RelicService = {
   inventory: null,
@@ -275,7 +276,7 @@ export const RelicProvider = (props: PropsWithChildren<{}>) => {
     }
 
     const TEMPLE = new ERC20__factory(signer).attach(env.nexus.templeToken);
-    await ensureAllowance(TICKER_SYMBOL.TEMPLE_TOKEN, TEMPLE, env.nexus.templeSacrificeAddress, amount);
+    await ensureAllowance(TICKER_SYMBOL.TEMPLE_TOKEN, TEMPLE, env.nexus.templeSacrificeAddress, amount, amount);
 
     const sacrificeContract = new TempleSacrifice__factory(signer).attach(env.nexus.templeSacrificeAddress);
     const txn = await sacrificeContract.sacrifice();

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { phoneAndAbove } from 'styles/breakpoints';
 import Image from '../../../Image/Image';
 
 export const CodeBlock = styled.div`
@@ -28,7 +29,10 @@ export const Title = styled.div`
 `;
 
 export const ManualImage = styled(Image)`
-  width: 800px;
+  width: 100%;
+  ${phoneAndAbove(`
+    width: 800px;
+  `)}
   padding-top: 20px;
   padding-bottom: 20px;
 `;
@@ -36,7 +40,10 @@ export const ManualImage = styled(Image)`
 export const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 800px;
+  width: 100%;
+  ${phoneAndAbove(`
+    width: 800px;
+  `)}
   align-items: flex-start:
 `;
 
