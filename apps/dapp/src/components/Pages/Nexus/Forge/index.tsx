@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import ItemGrid, { ItemButton } from '../Relic/ItemGrid';
 
 import bagImage from 'assets/icons/bagicon.png';
+import { NexusSoundscape } from '../NexusSoundscape';
 
 type TransmuteState = {
   shardsPendingForge: RelicItemData[];
@@ -207,6 +208,7 @@ const ForgePage = () => {
           </>
         )}
       </ForgePanel>
+      <NexusSoundscape />
     </ForgeWrapper>
   );
 };

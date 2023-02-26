@@ -7,7 +7,10 @@ import { theme } from 'styles/theme';
 import { useRefreshWalletState } from 'hooks/use-refresh-wallet-state';
 import { useWallet } from 'providers/WalletProvider';
 
+import env from 'constants/env';
+
 import Header from './Header';
+import { NexusSoundscape } from 'components/Pages/Nexus/NexusSoundscape';
 
 const CoreLayout: FC<{ mode: 'dapp' | 'nexus' }> = (props) => {
   const { isConnected } = useWallet();
@@ -27,20 +30,21 @@ const CoreLayout: FC<{ mode: 'dapp' | 'nexus' }> = (props) => {
 
   return (
     <>
-      <Header mode={props.mode}/>
+      <Header mode={props.mode} />
+      {env.featureFlags.nexusOnlyMode && <NexusSoundscape />}
       <Main>
         <Outlet />
       </Main>
     </>
   );
-}
+};
 
 export default CoreLayout;
 
 const Main = styled.main`
   margin: 0 auto;
   padding: 0px;
-  
+
   ${phoneAndAbove(`
     max-width: ${theme.metrics.desktop.maxWidth};
   `)}
