@@ -1,9 +1,8 @@
-import { Howl } from 'howler';
 import Image from 'components/Image/Image';
 import nexusSoundtrack from 'assets/sounds/m08-buf2.mp3';
 import ReactHowler from 'react-howler';
 import playingIcon from 'assets/icons/sound_icon.png';
-import stoppedIcon from 'assets/icons/sound_icon.png';
+import stoppedIcon from 'assets/icons/sound_icon_off.png';
 import { useState } from 'react';
 import styled from 'styled-components';
 
