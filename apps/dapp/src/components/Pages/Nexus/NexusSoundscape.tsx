@@ -23,7 +23,7 @@ export const NexusSoundscape = () => {
     <FullScreenContainer>
       <NexusSoundscapeContainer>
         <SoundscapeIcon src={icon} onClick={soundIconClickHandler} />
-        <ReactHowler src={nexusSoundtrack} playing={true} volume={volume} />
+        <ReactHowler src={nexusSoundtrack} playing={true} loop volume={volume} />
       </NexusSoundscapeContainer>
     </FullScreenContainer>
   );
@@ -39,15 +39,24 @@ const FullScreenContainer = styled.div`
 `;
 
 const SoundscapeIcon = styled(Image)`
-  width: 50px;
-  height: 50px;
+  width: 30px;
+  height: 30px;
+  filter: invert(45%) sepia(100%) saturate(263%) hue-rotate(341deg) brightness(97%) contrast(86%);
 `;
 
 const NexusSoundscapeContainer = styled.div`
   position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   bottom: 0;
   right: 0;
-  margin-right: 100px;
-  margin-bottom: 100px;
+  margin-right: 25px;
+  margin-bottom: 25px;
+  height: 50px;
+  width: 50px;
+  background-color: #000;
+  border: 1px solid ${(props) => props.theme.palette.brandDark};
+  border-radius: 50%;
 `;

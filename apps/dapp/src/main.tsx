@@ -34,6 +34,7 @@ import QuestPage from 'components/Pages/Nexus/Quest';
 import ForgePage from 'components/Pages/Nexus/Forge';
 import NexusUserManual from 'components/Pages/Nexus/Manual/UserManual';
 import NexusPartnerManual from 'components/Pages/Nexus/Manual/PartnerManual';
+import { NexusGates } from 'components/Pages/Nexus/NexusGates';
 
 // Separate Chunks
 const TeamPayments = React.lazy(() => import('components/Pages/TeamPayments'));
@@ -113,10 +114,7 @@ ReactDOM.render(
           )}
           {nexusOnly && (
             <>
-              <Route path="/" element={<PageLayout />}>
-                <Route path="" element={<Navigate replace to="/nexus/" />} />
-                <Route path="*" element={<Navigate replace to="/nexus/" />} />
-              </Route>
+              <Route path="" element={<NexusGates />} />
               <Route path="/nexus/*" element={<CoreLayout mode="nexus" />}>
                 <Route path="" element={<Navigate to="relic" />} />
                 <Route path="relic/*" element={<NexusPage />} />
