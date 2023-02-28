@@ -23,12 +23,12 @@ const NexusGatesContainer = styled.div`
 `;
 
 const KeyForm = styled.form`
-  //   position: absolute;
-  //   bottom: 2rem;
-  //   right: 2rem;
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-end;
+  align-items: flex-end;
   height: 100%;
 `;
 
