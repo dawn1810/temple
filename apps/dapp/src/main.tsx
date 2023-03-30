@@ -35,6 +35,8 @@ import ForgePage from 'components/Pages/Nexus/Forge';
 import NexusUserManual from 'components/Pages/Nexus/Manual/UserManual';
 import NexusPartnerManual from 'components/Pages/Nexus/Manual/PartnerManual';
 import { NexusGates } from 'components/Pages/Nexus/NexusGates';
+import NexusLibrary from 'components/Pages/Nexus/Quests/FirstQuest/library';
+import Quiz from 'components/Pages/Nexus/Quests/FirstQuest/Quiz';
 
 // Separate Chunks
 const TeamPayments = React.lazy(() => import('components/Pages/TeamPayments'));
@@ -123,6 +125,8 @@ ReactDOM.render(
                 <Route path="help" element={<NexusUserManual />} />
                 <Route path="partner" element={<NexusPartnerManual />} />
               </Route>
+              <Route path="/nexus/quests/library" element={<NexusLibrary />} />
+              <Route path="/nexus/quests/quiz" element={<Quiz />} />
             </>
           )}
         </Routes>

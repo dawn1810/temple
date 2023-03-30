@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import Image from '../../../Image/Image';
 import { QuestData, RARITY_TYPE } from '../types';
 
-
 export interface QuestCellProps {
   quest: QuestData;
 }
@@ -22,7 +21,9 @@ const QuestCell = ({ quest }: QuestCellProps) => {
       <CellRow>
         <RowText>{`Origin: ${quest.origin}`}</RowText>
         <RowText align={'right'}>
-          <TravelLink href={quest.linkUrl}>Travel</TravelLink>
+          <TravelLink target="_blank" href={quest.linkUrl}>
+            Travel
+          </TravelLink>
         </RowText>
       </CellRow>
       <CellRow>

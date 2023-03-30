@@ -7,8 +7,6 @@ import { theme } from 'styles/theme';
 import { useRefreshWalletState } from 'hooks/use-refresh-wallet-state';
 import { useWallet } from 'providers/WalletProvider';
 
-import env from 'constants/env';
-
 import Header from './Header';
 import { NexusSoundscape } from 'components/Pages/Nexus/NexusSoundscape';
 
@@ -31,7 +29,7 @@ const CoreLayout: FC<{ mode: 'dapp' | 'nexus' }> = (props) => {
   return (
     <>
       <Header mode={props.mode} />
-      {env.featureFlags.nexusOnlyMode && <NexusSoundscape />}
+      {props.mode === 'nexus' && <NexusSoundscape />}
       <Main>
         <Outlet />
       </Main>

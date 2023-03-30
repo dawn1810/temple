@@ -38,7 +38,6 @@ const env: Environment = {
     templeCore: 'https://api.thegraph.com/subgraphs/name/templedao/templedao-core-goerli',
     protocolMetrics: 'https://api.thegraph.com/subgraphs/name/templedao/templedao-metrics',
     balancerV2: 'https://api.thegraph.com/subgraphs/name/templedao/templedao-balancer-v2',
-    ramos: 'https://api.thegraph.com/subgraphs/name/templedao/templedao-ramos',
     // Original Balancer Subgraph
     // balancerV2: 'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-goerli-v2',
   },
@@ -108,7 +107,7 @@ const env: Environment = {
     },
   },
   network: 5,
-  etherscan: 'https://goerli.etherscan.io',
+  etherscan: 'https://goerli.arbiscan.io',
   featureFlags: {
     enableAscend: false,
     nexusOnlyMode: true,
@@ -151,21 +150,21 @@ const env: Environment = {
       },
     },
     quests: [
-      // {
-      //   id: '1',
-      //   title: 'Spirit of the Sands',
-      //   origin: 'TempleDAO',
-      //   linkUrl: 'https://templedao.link',
-      //   description:
-      //     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi accumsan libero sed placerat viverra. Praesent ac vehicula mauris, non ullamcorper metus. Vestibulum ultricies odio at libero pulvinar dapibus sed vel leo.',
-      //   logoUrl: 'https://myst.mypinata.cloud/ipfs/QmaTErwf7sV9WzfP86GjDfnRBwKL74y2j9H4vUwNr7jMhE/0.png',
-      //   rewardLogoUrls: [
-      //     'https://myst.mypinata.cloud/ipfs/QmaTErwf7sV9WzfP86GjDfnRBwKL74y2j9H4vUwNr7jMhE/0.png',
-      //     'https://myst.mypinata.cloud/ipfs/QmaTErwf7sV9WzfP86GjDfnRBwKL74y2j9H4vUwNr7jMhE/0.png',
-      //     'https://myst.mypinata.cloud/ipfs/QmaTErwf7sV9WzfP86GjDfnRBwKL74y2j9H4vUwNr7jMhE/0.png',
-      //   ],
-      //   rarity: RARITY_TYPE.EPIC,
-      // },
+      {
+        id: '1',
+        title: 'Spirit of the Sands',
+        origin: 'TempleDAO',
+        linkUrl: 'https://templedao.link',
+        description:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi accumsan libero sed placerat viverra. Praesent ac vehicula mauris, non ullamcorper metus. Vestibulum ultricies odio at libero pulvinar dapibus sed vel leo.',
+        logoUrl: 'https://myst.mypinata.cloud/ipfs/QmaTErwf7sV9WzfP86GjDfnRBwKL74y2j9H4vUwNr7jMhE/0.png',
+        rewardLogoUrls: [
+          'https://myst.mypinata.cloud/ipfs/QmaTErwf7sV9WzfP86GjDfnRBwKL74y2j9H4vUwNr7jMhE/0.png',
+          'https://myst.mypinata.cloud/ipfs/QmaTErwf7sV9WzfP86GjDfnRBwKL74y2j9H4vUwNr7jMhE/0.png',
+          'https://myst.mypinata.cloud/ipfs/QmaTErwf7sV9WzfP86GjDfnRBwKL74y2j9H4vUwNr7jMhE/0.png',
+        ],
+        rarity: RARITY_TYPE.EPIC,
+      },
     ],
   },
 };

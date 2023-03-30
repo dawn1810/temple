@@ -5,12 +5,10 @@ import styled, { css } from 'styled-components';
 import Loader from '../Loader/Loader';
 import useIsMounted from 'hooks/use-is-mounted';
 
-export interface ButtonProps
-  extends ButtonStyledProps,
-    HTMLProps<HTMLButtonElement> {
+export interface ButtonProps extends ButtonStyledProps, HTMLProps<HTMLButtonElement> {
   type?: 'submit' | 'reset' | 'button' | undefined;
   label?: string;
-  loading?: boolean; 
+  loading?: boolean;
 
   onClick?(): Promise<void> | void;
 }
@@ -107,7 +105,7 @@ interface ButtonStyledProps {
 
 const ButtonLeadingIcon = styled(Image)`
   margin: 0 0.3rem 0;
-`
+`;
 
 export const ButtonStyled = styled.button<ButtonStyledProps>`
   // common
