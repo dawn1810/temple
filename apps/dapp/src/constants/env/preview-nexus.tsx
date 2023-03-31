@@ -153,9 +153,9 @@ const env: Environment = {
     quests: [
       {
         id: '1',
-        title: 'Spirit of the Sands',
+        title: 'First Quest TBD',
         origin: 'TempleDAO',
-        linkUrl: 'https://templedao.link',
+        linkUrl: 'https://pr-637-preview.templedao.link/nexus/quests/library',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi accumsan libero sed placerat viverra. Praesent ac vehicula mauris, non ullamcorper metus. Vestibulum ultricies odio at libero pulvinar dapibus sed vel leo.',
         logoUrl: 'https://myst.mypinata.cloud/ipfs/QmaTErwf7sV9WzfP86GjDfnRBwKL74y2j9H4vUwNr7jMhE/0.png',
