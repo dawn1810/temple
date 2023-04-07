@@ -35,7 +35,7 @@ import ForgePage from 'components/Pages/Nexus/Forge';
 import NexusUserManual from 'components/Pages/Nexus/Manual/UserManual';
 import NexusPartnerManual from 'components/Pages/Nexus/Manual/PartnerManual';
 import { NexusGates } from 'components/Pages/Nexus/NexusGates';
-import NexusLibrary from 'components/Pages/Nexus/Quests/FirstQuest/library';
+import NexusLibrary from 'components/Pages/Nexus/Quests/FirstQuest/Library';
 import Quiz from 'components/Pages/Nexus/Quests/FirstQuest/Quiz';
 
 // Separate Chunks

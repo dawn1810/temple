@@ -33,6 +33,42 @@ const QuestionSlide = ({
   console.log('here');
   console.log(initialSelectedAnswer);
 
+  console.log('here');
+  console.log(initialSelectedAnswer);
+
+  console.log('here');
+  console.log(initialSelectedAnswer);
+
+  console.log('here');
+  console.log(initialSelectedAnswer);
+
+  console.log('here');
+  console.log(initialSelectedAnswer);
+
+  console.log('here');
+  console.log(initialSelectedAnswer);
+
+  console.log('here');
+  console.log(initialSelectedAnswer);
+
+  console.log('here');
+  console.log(initialSelectedAnswer);
+
+  console.log('here');
+  console.log(initialSelectedAnswer);
+
+  console.log('here');
+  console.log(initialSelectedAnswer);
+
+  console.log('here');
+  console.log(initialSelectedAnswer);
+
+  console.log('here');
+  console.log(initialSelectedAnswer);
+
+  console.log('here');
+  console.log(initialSelectedAnswer);
+
   const [answerSelected, setAnswerSelected] = useState(false);
   const [answerNumber, setAnswerNumber] = useState(0);
 
@@ -111,8 +147,43 @@ const AnswerButton = styled.button<AnswerButtonProps>`
   text-decoration: ${(props) => (props.selected ? 'underline' : 'none')};
 
   &:hover {
+    background: linear-gradient(180deg, #ffffff 45.31%, #0c0b0b 100%);
     border: 1px solid;
     border-image-source: linear-gradient(0deg, #ffdec9, #ffdec9), linear-gradient(0deg, #d9a37d, #d9a37d);
+    background: linear-gradient(180deg, #ffffff 45.31%, #0c0b0b 100%);
+    border: 1px solid;
+    border-image-source: linear-gradient(0deg, #ffdec9, #ffdec9), linear-gradient(0deg, #d9a37d, #d9a37d);
+    background: linear-gradient(180deg, #ffffff 45.31%, #0c0b0b 100%);
+    border: 1px solid;
+    border-image-source: linear-gradient(0deg, #ffdec9, #ffdec9), linear-gradient(0deg, #d9a37d, #d9a37d);
+    background: linear-gradient(180deg, #ffffff 45.31%, #0c0b0b 100%);
+    border: 1px solid;
+    border-image-source: linear-gradient(0deg, #ffdec9, #ffdec9), linear-gradient(0deg, #d9a37d, #d9a37d);
+    background: linear-gradient(180deg, #ffffff 45.31%, #0c0b0b 100%);
+    border: 1px solid;
+    border-image-source: linear-gradient(0deg, #ffdec9, #ffdec9), linear-gradient(0deg, #d9a37d, #d9a37d);
+    background: linear-gradient(180deg, #ffffff 45.31%, #0c0b0b 100%);
+    border: 1px solid;
+    border-image-source: linear-gradient(0deg, #ffdec9, #ffdec9), linear-gradient(0deg, #d9a37d, #d9a37d);
+    background: linear-gradient(180deg, #ffffff 45.31%, #0c0b0b 100%);
+    border: 1px solid;
+    border-image-source: linear-gradient(0deg, #ffdec9, #ffdec9), linear-gradient(0deg, #d9a37d, #d9a37d);
+    background: linear-gradient(180deg, #ffffff 45.31%, #0c0b0b 100%);
+    border: 1px solid;
+    border-image-source: linear-gradient(0deg, #ffdec9, #ffdec9), linear-gradient(0deg, #d9a37d, #d9a37d);
+    background: linear-gradient(180deg, #ffffff 45.31%, #0c0b0b 100%);
+    border: 1px solid;
+    border-image-source: linear-gradient(0deg, #ffdec9, #ffdec9), linear-gradient(0deg, #d9a37d, #d9a37d);
+    background: linear-gradient(180deg, #ffffff 45.31%, #0c0b0b 100%);
+    border: 1px solid;
+    border-image-source: linear-gradient(0deg, #ffdec9, #ffdec9), linear-gradient(0deg, #d9a37d, #d9a37d);
+    background: linear-gradient(180deg, #ffffff 45.31%, #0c0b0b 100%);
+    border: 1px solid;
+    border-image-source: linear-gradient(0deg, #ffdec9, #ffdec9), linear-gradient(0deg, #d9a37d, #d9a37d);
+    background: linear-gradient(180deg, #ffffff 45.31%, #0c0b0b 100%);
+    border: 1px solid;
+    border-image-source: linear-gradient(0deg, #ffdec9, #ffdec9), linear-gradient(0deg, #d9a37d, #d9a37d);
+    background: linear-gradient(180deg, #ffffff 45.31%, #0c0b0b 100%);
   }
 `;
 
