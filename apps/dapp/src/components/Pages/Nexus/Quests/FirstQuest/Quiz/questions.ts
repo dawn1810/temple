@@ -248,7 +248,7 @@ export const QUIZ_QUESTIONS = [
     question: 'Which is the primary LP managed by RAMOS?',
     answers: [
       {
-        answer: 'A. TEMPLE/bb-e-USD',
+        answer: 'A. TEMPLE/DAI',
         correct: true,
       },
       {
