@@ -125,8 +125,24 @@ ReactDOM.render(
                 <Route path="help" element={<NexusUserManual />} />
                 <Route path="partner" element={<NexusPartnerManual />} />
               </Route>
-              <Route path="/nexus/quests/library" element={<NexusLibrary />} />
-              <Route path="/nexus/quests/quiz" element={<Quiz />} />
+              <Route
+                path="/nexus/quests/library"
+                element={
+                  <>
+                    <CoreLayout headless mode="nexus" />
+                    <NexusLibrary />
+                  </>
+                }
+              />
+              <Route
+                path="/nexus/quests/quiz"
+                element={
+                  <>
+                    <CoreLayout headless mode="nexus" />
+                    <Quiz />
+                  </>
+                }
+              />
             </>
           )}
         </Routes>

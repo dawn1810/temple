@@ -10,7 +10,12 @@ import { useWallet } from 'providers/WalletProvider';
 import Header from './Header';
 import { NexusSoundscape } from 'components/Pages/Nexus/NexusSoundscape';
 
-const CoreLayout: FC<{ mode: 'dapp' | 'nexus' }> = (props) => {
+type CoreLayoutProps = {
+  mode: 'dapp' | 'nexus',
+  headless?: boolean
+}
+
+const CoreLayout: FC<CoreLayoutProps> = (props) => {
   const { isConnected } = useWallet();
   const [_, resfreshWalletState] = useRefreshWalletState();
   const didRefreshRefresh = useRef(false);
@@ -28,7 +33,7 @@ const CoreLayout: FC<{ mode: 'dapp' | 'nexus' }> = (props) => {
 
   return (
     <>
-      <Header mode={props.mode} />
+      {!props.headless && <Header mode={props.mode} />}
       {props.mode === 'nexus' && <NexusSoundscape />}
       <Main>
         <Outlet />
