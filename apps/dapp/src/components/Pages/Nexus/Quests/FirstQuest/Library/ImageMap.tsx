@@ -59,7 +59,7 @@ const ImageMap = ({ imageSrc, imageSrcHover, hotspots }: ImageMapProps) => {
       bottom: 'auto',
       marginRight: '-50%',
       width: 1260,
-      height: 832,
+      height: 834,
       transform: 'translate(-50%, -50%)',
       padding: '0px',
       border: '',

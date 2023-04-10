@@ -13,7 +13,7 @@ const FirstSlide = ({ startButtonClickHandler }: FirstSlideProps) => {
           Templar, you’ve made it this far. <br />
           Your journey has only just begun through the hallways of Temple. <br />
           The Library is but the first step in a lifetime of learning. <br />
-          But, first, answer these riddles so we know you truly are one of us. <br />
+          But first, answer these riddles so we know you truly are one of us. <br />
           The Temple rewards its Scholars.
         </TextContainer>
         <SlideStartButton onClick={startButtonClickHandler}>Start</SlideStartButton>

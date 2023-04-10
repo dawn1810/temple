@@ -25,7 +25,7 @@ const Book = ({ bookIndex }: BookProps) => {
 
 const BookPicture = styled(Image)`
   width: 1260;
-  height: 832;
+  height: 834;
 `;
 
 const BookContainer = styled.div`
