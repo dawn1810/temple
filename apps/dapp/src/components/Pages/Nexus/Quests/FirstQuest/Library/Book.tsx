@@ -1,7 +1,6 @@
 import styled from 'styled-components';
-
 import Image from 'components/Image/Image';
-import bookBackground from 'assets/images/nexus/Page_Template_Folded_Page.png';
+
 import book1 from 'assets/images/nexus/book1-onepage.png';
 import book2 from 'assets/images/nexus/book2-onepage.png';
 import book3 from 'assets/images/nexus/book3-onepage.png';

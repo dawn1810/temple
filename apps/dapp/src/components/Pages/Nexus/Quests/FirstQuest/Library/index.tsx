@@ -1,8 +1,6 @@
 import ImageMap from './ImageMap';
 
 import libraryShelfImage from 'assets/images/nexus/Library_Shelves5.png';
-import libraryShelfImageHL from 'assets/images/nexus/Library_Shelves_HL2.png';
-import libraryShelfImageHLNew from 'assets/images/nexus/Library_Shelves_6.png';
 
 // individual highlights
 import highlightTopRight from 'assets/images/nexus/Library_Shelves_top_right.png';
