@@ -78,6 +78,7 @@ interface Nexus {
   templeShardsAddress: string;
   templeSacrificeAddress: string;
   templeToken: string;
+  templePartnerMinterAddress: string;
   recipes: Recipe[];
   shardMetadata: {
     [key: number]: Shard;

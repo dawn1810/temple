@@ -7,7 +7,7 @@ import { FC } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import BufferedItemGrid from './BufferedItemGrid';
-import RelicStatsPanel, { getEnclavePalette, getRarityPalette } from './RelicStatsPanel';
+import RelicStatsPanel, { getEnclavePalette } from './RelicStatsPanel';
 import { NexusPanelRow } from './styles';
 
 import bagImage from 'assets/icons/bagicon.png';

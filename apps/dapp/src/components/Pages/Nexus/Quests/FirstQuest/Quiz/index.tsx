@@ -2,11 +2,15 @@ import { useEffect, useState } from 'react';
 import CollectSlide from './CollectSlide';
 import FinalSlide from './FinalSlide';
 import FirstSlide from './FirstSlide';
-import { QuizQuestion, pickQuestions, QUIZ_QUESTIONS, QuizAnswer } from './questions';
+import { QuizQuestion, pickQuestions, QuizAnswer } from './questions';
 import QuestionSlide from './QuestionSlide';
+import { useWallet } from 'providers/WalletProvider';
+import { useAccount } from 'wagmi';
+import ConnectWalletSlide from './ConnectWalletSlide';
+import SuccessSlide from './SuccessSlide';
 
+// TODO: Move to env?
 const NUMBER_OF_QUESTIONS = 10;
-
 const PASSING_SCORE = 0.7;
 
 type QuizAnswerState = {
@@ -19,13 +23,24 @@ type QuizAnswerState = {
 const EMPTY_QUIZ_ANSWER_STATE: QuizAnswerState = {};
 
 const Quiz = () => {
+  const { isConnected } = useWallet();
+  const { address } = useAccount();
+
   const [questionNumber, setQuestionNumber] = useState(0);
   const [questions, setQuestions] = useState([] as QuizQuestion[]);
   const [passed, setPassed] = useState(false);
   const [complete, setComplete] = useState(false);
-  const [score, setScore] = useState(0);
-
+  const [mintSuccess, setMintSuccess] = useState(false);
   const [answers, setAnswers] = useState<QuizAnswerState>(EMPTY_QUIZ_ANSWER_STATE);
+  const [showConnect, setShowConnect] = useState(false);
+
+  useEffect(() => {
+    if (address && isConnected) {
+      setShowConnect(false);
+      return;
+    }
+    setShowConnect(true);
+  }, [address, isConnected]);
 
   useEffect(() => {
     setQuestions(pickQuestions(NUMBER_OF_QUESTIONS));
@@ -46,7 +61,16 @@ const Quiz = () => {
   const submitButtonHandler = () => {
     console.debug(`---> Submit button clicked, calculating score`);
     const correctAnswers = Object.values(answers).filter((answer) => answer.answer.correct === true);
-    setScore(correctAnswers.length / NUMBER_OF_QUESTIONS);
+    const score = correctAnswers.length / NUMBER_OF_QUESTIONS;
+
+    console.debug(`---> User score: ${score}`);
+    if (score >= PASSING_SCORE) {
+      setPassed(true);
+      setComplete(true);
+    } else {
+      setPassed(false);
+      setComplete(true);
+    }
   };
 
   const quizAnswerHandler = (questionNumber: number, answer: QuizAnswer, selectedAnswerIndex: number) => {
@@ -67,20 +91,21 @@ const Quiz = () => {
     setAnswers(EMPTY_QUIZ_ANSWER_STATE);
   };
 
-  useEffect(() => {
-    console.debug(`---> User score: ${score}`);
-    if (score >= PASSING_SCORE) {
-      setPassed(true);
-      setComplete(true);
-    } else {
-      setPassed(false);
-      setComplete(true);
-    }
-  }, [score]);
+  const onMintSuccess = () => {
+    setMintSuccess(true);
+  };
 
   useEffect(() => {
     setComplete(false);
   }, []);
+
+  if (showConnect) {
+    return <ConnectWalletSlide />;
+  }
+
+  if (mintSuccess) {
+    return <SuccessSlide />;
+  }
 
   return (
     <>
@@ -100,7 +125,7 @@ const Quiz = () => {
       {!complete && questionNumber > NUMBER_OF_QUESTIONS && (
         <FinalSlide backButtonClickHandler={prevButtonHandler} submitButtonClickHandler={submitButtonHandler} />
       )}
-      {complete && <CollectSlide passed={passed} tryAgainButtonClickHandler={tryAgainButtonClickHandler} />}
+      {complete && <CollectSlide passed={passed} tryAgainButtonClickHandler={tryAgainButtonClickHandler} onSuccessCallback={onMintSuccess} />}
     </>
   );
 };

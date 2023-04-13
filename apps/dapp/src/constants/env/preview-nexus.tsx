@@ -119,6 +119,7 @@ const env: Environment = {
     templeShardsAddress: '0xaBf139511C381f7804EdD6E4c78383b775d8CeeF',
     templeSacrificeAddress: '0xD0A07fc8Bfe7e2846A67B8C34C6b573Aff5e2511',
     templeToken: '0xB8FeDaCB1780b3936251b1b0169b4E11A5bA8277',
+    templePartnerMinterAddress: '0x7ED0F069f34Be49B736b5b52dEE019035AeB534f',
     recipes: [
       { id: 0, required_ids: [0, 1], required_amounts: [1, 1], reward_ids: [2], reward_amounts: [1] },
       { id: 2, required_ids: [0, 1], required_amounts: [2, 3], reward_ids: [2], reward_amounts: [1] },
@@ -155,7 +156,7 @@ const env: Environment = {
         id: '1',
         title: 'First Quest TBD',
         origin: 'TempleDAO',
-        linkUrl: 'https://pr-637-preview.templedao.link/nexus/quests/library',
+        linkUrl: 'https://www.voxels.com/spaces/ecd16631-9db3-49d7-b8d6-08e28556a734/play',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi accumsan libero sed placerat viverra. Praesent ac vehicula mauris, non ullamcorper metus. Vestibulum ultricies odio at libero pulvinar dapibus sed vel leo.',
         logoUrl: 'https://myst.mypinata.cloud/ipfs/QmaTErwf7sV9WzfP86GjDfnRBwKL74y2j9H4vUwNr7jMhE/0.png',

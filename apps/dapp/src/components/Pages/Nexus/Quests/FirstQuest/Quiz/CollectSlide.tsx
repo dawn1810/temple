@@ -3,17 +3,44 @@ import { Button } from 'components/Button/Button';
 import Image from 'components/Image/Image';
 import Slide from './Slide';
 import nexusCloseBook from 'assets/images/nexus/nexusicons_closebook.png';
+import { useRelic } from 'providers/RelicProvider';
+import { useEffect } from 'react';
 
 type CollectSlideProps = {
   passed: boolean;
   tryAgainButtonClickHandler?: () => void;
-  collectShardButtonClickHandler?: () => void;
+  onSuccessCallback?: (() => Promise<void>) | (() => void);
 };
 
-// TODO: Try again should go back to the beginning and reset the entire state
-// TODO: Collect shard should handle the actual claiming of the shard
+const CollectSlide = ({ passed, tryAgainButtonClickHandler, onSuccessCallback }: CollectSlideProps) => {
+  const { mintShard } = useRelic();
+  const { handler: mintShardHandler, isLoading: mintShardLoading, error: mintShardError } = mintShard;
 
-const CollectSlide = ({ passed, tryAgainButtonClickHandler, collectShardButtonClickHandler }: CollectSlideProps) => {
+  const collectShardHandler = async () => {
+    console.debug('Going to mint shard');
+    await mintShardHandler();
+    if (onSuccessCallback) {
+      onSuccessCallback();
+    }
+  };
+
+  const friendlyErrorMessage = (maybeError: any) => {
+    let message = '';
+    if (maybeError.message) {
+      const boundary = maybeError.message.indexOf('(');
+      if (boundary > 0) {
+        message = maybeError.message.substring(0, boundary - 1);
+      } else {
+        maybeError.message.substring(0, 20).concat('...');
+      }
+    }
+
+    if (maybeError.reason) {
+      message = maybeError.reason;
+    }
+    return message;
+
+  };
   return (
     <Slide headerText={''}>
       {passed && (
@@ -30,8 +57,15 @@ const CollectSlide = ({ passed, tryAgainButtonClickHandler, collectShardButtonCl
             </CollectShardContainer>
           </TextContainer>
           <ButtonsContainer>
-            <StyledButton onClick={collectShardButtonClickHandler}>COLLECT SHARD</StyledButton>
+            <StyledButton loading={mintShardLoading} onClick={collectShardHandler}>
+              COLLECT SHARD
+            </StyledButton>
           </ButtonsContainer>
+          {mintShardError && (
+            <ErrorContainer>
+              {friendlyErrorMessage(mintShardError)}
+            </ErrorContainer>
+          )}
         </>
       )}
       {!passed && (
@@ -51,6 +85,10 @@ const CollectSlide = ({ passed, tryAgainButtonClickHandler, collectShardButtonCl
   );
 };
 
+const ErrorContainer = styled.div`
+  color: red;
+`;
+
 const ImageContainer = styled.div`
   border: 2px solid;
   border-radius: 10px;
@@ -58,7 +96,7 @@ const ImageContainer = styled.div`
   padding: 10px;
   align-items: center;
   margin-top: 10px;
-  border: 1.5px solid #BD7B4F;;
+  border: 1.5px solid #bd7b4f;
   border-radius: 10px;
 `;
 

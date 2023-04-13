@@ -10,6 +10,7 @@ import {
   Relic__factory,
   TempleSacrifice__factory,
   ERC20__factory,
+  PartnerMinter__factory,
 } from 'types/typechain';
 import { Nullable } from 'types/util';
 import { asyncNoop } from 'utils/helpers';
@@ -20,7 +21,6 @@ import { useNotification } from './NotificationProvider';
 import { useWallet } from './WalletProvider';
 import { TICKER_SYMBOL } from 'enums/ticker-symbol';
 import { ZERO } from 'utils/bigNumber';
-import { formatNumber } from 'utils/formatter';
 
 const INITIAL_STATE: RelicService = {
   inventory: null,
@@ -46,6 +46,11 @@ const INITIAL_STATE: RelicService = {
     isLoading: false,
     error: null,
     sacrificePrice: ZERO,
+  },
+  mintShard: {
+    handler: asyncNoop,
+    isLoading: false,
+    error: null,
   },
 };
 
@@ -314,6 +319,37 @@ export const RelicProvider = (props: PropsWithChildren<{}>) => {
     shouldReThrow: true,
   });
 
+  const mintShard = async () => {
+    console.log('--- inside here');
+    console.log(signer);
+    console.log(wallet);
+
+    if (!signer || !wallet) {
+      return;
+    }
+
+    // TODO: Add error handling
+    const partnerMinterContract = new PartnerMinter__factory(signer).attach(env.nexus.templePartnerMinterAddress);
+    console.log('--- HERE');
+    let receipt: ContractReceipt;
+    try {
+      const txnReceipt = await partnerMinterContract.mintShard(1);
+      receipt = await txnReceipt.wait();
+    } catch (error: any) {
+      console.log(error.message);
+      throw error;
+    }
+
+    openNotification({
+      title: 'Successfully Minted Shard',
+      hash: receipt.transactionHash,
+    });
+  };
+
+  const [mintShardHandler, mintShardRequestState] = useRequestState(mintShard, {
+    shouldReThrow: true,
+  });
+
   return (
     <RelicContext.Provider
       value={{
@@ -342,6 +378,11 @@ export const RelicProvider = (props: PropsWithChildren<{}>) => {
           isLoading: fetchSacrificePriceRequestState.isLoading,
           error: fetchSacrificePriceRequestState.error,
           sacrificePrice,
+        },
+        mintShard: {
+          handler: mintShardHandler,
+          isLoading: mintShardRequestState.isLoading,
+          error: mintShardRequestState.error,
         },
       }}
     >

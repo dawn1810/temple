@@ -135,6 +135,7 @@ const env: Environment = {
     templeShardsAddress: '',
     templeSacrificeAddress: '',
     templeToken: '',
+    templePartnerMinterAddress: '',
     recipes: [],
     shardMetadata: {},
     quests: [],
