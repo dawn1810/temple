@@ -20,6 +20,7 @@ interface IShards {
 contract PartnerMinter is Ownable {
     IShards private SHARDS;
     IRelic private RELIC;
+    uint256 public SHARD_ID = 1;
 
     modifier canMint() {
         uint256 balance = RELIC.balanceOf(msg.sender);
@@ -39,8 +40,8 @@ contract PartnerMinter is Ownable {
 
     mapping(uint256 => bool) relicIdToMinted;
 
-    function mintShard(uint256 _itemId) external canMint {
-        SHARDS.partnerMint(msg.sender, _itemId, 1, "");
+    function mintShard() external canMint {
+        SHARDS.partnerMint(msg.sender, SHARD_ID, 1, "");
     }
 
     function setRelicShards(

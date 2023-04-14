@@ -119,7 +119,7 @@ const env: Environment = {
     templeShardsAddress: '0xaBf139511C381f7804EdD6E4c78383b775d8CeeF',
     templeSacrificeAddress: '0xD0A07fc8Bfe7e2846A67B8C34C6b573Aff5e2511',
     templeToken: '0xB8FeDaCB1780b3936251b1b0169b4E11A5bA8277',
-    templePartnerMinterAddress: '0x7ED0F069f34Be49B736b5b52dEE019035AeB534f',
+    templePartnerMinterAddress: '0x6C1b2C8073344B7686a54Fcf2CFA28E5b13379d5',
     recipes: [
       { id: 0, required_ids: [0, 1], required_amounts: [1, 1], reward_ids: [2], reward_amounts: [1] },
       { id: 2, required_ids: [0, 1], required_amounts: [2, 3], reward_ids: [2], reward_amounts: [1] },

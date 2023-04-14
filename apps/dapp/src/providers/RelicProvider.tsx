@@ -320,20 +320,16 @@ export const RelicProvider = (props: PropsWithChildren<{}>) => {
   });
 
   const mintShard = async () => {
-    console.log('--- inside here');
-    console.log(signer);
-    console.log(wallet);
-
     if (!signer || !wallet) {
       return;
     }
 
     // TODO: Add error handling
     const partnerMinterContract = new PartnerMinter__factory(signer).attach(env.nexus.templePartnerMinterAddress);
-    console.log('--- HERE');
+
     let receipt: ContractReceipt;
     try {
-      const txnReceipt = await partnerMinterContract.mintShard(1);
+      const txnReceipt = await partnerMinterContract.mintShard();
       receipt = await txnReceipt.wait();
     } catch (error: any) {
       console.log(error.message);
