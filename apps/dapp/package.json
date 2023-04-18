@@ -21,8 +21,8 @@
   "dependencies": {
     "@balancer-labs/sdk": "1.0.1-beta.13",
     "@balancer-labs/sor": "^4.1.1-beta.4",
-    "@tippyjs/react": "^4.2.6",
     "@floating-ui/react-dom-interactions": "^0.11.0",
+    "@tippyjs/react": "^4.2.6",
     "axios": "^0.24.0",
     "buffer": "^6.0.3",
     "d3-shape": "^3.0.1",
