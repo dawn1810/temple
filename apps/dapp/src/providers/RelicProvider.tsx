@@ -10,7 +10,7 @@ import {
   Relic__factory,
   TempleSacrifice__factory,
   ERC20__factory,
-  PartnerMinter__factory,
+  Apocrypha__factory,
 } from 'types/typechain';
 import { Nullable } from 'types/util';
 import { asyncNoop } from 'utils/helpers';
@@ -325,7 +325,7 @@ export const RelicProvider = (props: PropsWithChildren<{}>) => {
     }
 
     // TODO: Add error handling
-    const partnerMinterContract = new PartnerMinter__factory(signer).attach(env.nexus.templePartnerMinterAddress);
+    const partnerMinterContract = new Apocrypha__factory(signer).attach(env.nexus.templePartnerMinterAddress);
 
     let receipt: ContractReceipt;
     try {

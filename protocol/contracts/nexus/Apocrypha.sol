@@ -1,3 +1,13 @@
+//         __...--~~~~~-._   _.-~~~~~--...__
+//        //               `V'               \\ 
+//       //                 |                 \\ 
+//      //__...--~~~~~~-._  |  _.-~~~~~~--...__\\ 
+//     //__.....----~~~~._\ | /_.~~~~----.....__\\
+//    ====================\\|//====================
+//                        `---`
+//
+//                 Temple's Apocrypha
+
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -17,7 +27,7 @@ interface IShards {
     ) external;
 }
 
-contract PartnerMinter is Ownable {
+contract Apocrypha is Ownable {
     IShards private SHARDS;
     IRelic private RELIC;
     uint256 public SHARD_ID = 1;
